@@ -74,12 +74,44 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    name: '首页',
     children: [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        name: '首页',
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/photographer',
+    component: Layout,
+    redirect: '/photographer/table',
+    name: '摄影师管理',
+    meta: {
+      title: '摄影师管理',
+      icon: 'example'
+    },
+    children: [
+      {
+        path: 'table',
+        component: () => import('@/views/photography/photographer/list'),
+        name: '摄影师列表',
+        meta: { title: '摄影师列表', icon: 'table' }
+      },
+      {
+        path: 'save',
+        component: () => import('@/views/photography/photographer/save'),
+        name: '添加摄影师',
+        meta: { title: '添加摄影师', icon: 'tree' }
+      },
+      {
+        path: 'edit/:id',
+        component: () => import('@/views/photography/photographer/save'),
+        name: '修改摄影师',
+        hidden: true,
+        meta: { title: '修改摄影师', icon: 'tree' }
       }
     ]
   },
@@ -103,8 +135,8 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
+        name: '123',
+        meta: { title: '123', icon: 'guide', noCache: true }
       }
     ]
   },

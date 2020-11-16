@@ -1,7 +1,7 @@
 {
   "name": "vue-element-admin",
   "version": "4.4.0",
-  "description": "摄影师论坛后台管理系统",
+  "description": "后台管理系统",
   "author": "罗天旭",
   "scripts": {
     "dev": "vue-cli-service serve",
