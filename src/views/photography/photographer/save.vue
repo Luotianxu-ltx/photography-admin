@@ -19,8 +19,32 @@
       <el-form-item label="摄影师简介">
         <el-input v-model="photographer.intro" :rows="10" type="textarea" />
       </el-form-item>
+      <!-- 摄影师头像 -->
+      <el-form-item label="摄影师头像">
 
-      <!-- 讲师头像：TODO -->
+        <!-- 头衔缩略图 -->
+        <pan-thumb :image="photographer.avatar" />
+        <!-- 文件上传按钮 -->
+        <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">更换头像
+        </el-button>
+        <!--
+        v-show：是否显示上传组件
+        :key：类似于id，如果一个页面多个图片上传控件，可以做区分
+        :url：后台上传的url地址
+        @close：关闭上传组件
+        @crop-upload-success：上传成功后的回调 -->
+        <image-cropper
+          v-show="imagecropperShow"
+          :key="imagecropperKey"
+          :width="300"
+          :height="300"
+          :url="VUE_APP_BASE_API+'/oss/fileoss'"
+          field="file"
+          @close="close"
+          @crop-upload-success="cropSuccess"
+        />
+
+      </el-form-item>
 
       <el-form-item>
         <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdate">保存</el-button>
@@ -31,7 +55,10 @@
 </template>
 <script>
 import photographerApi from '@/api/photography/photographer'
+import ImageCropper from '@/components/ImageCropper'
+import PanThumb from '@/components/PanThumb'
 export default {
+  components: { ImageCropper, PanThumb },
   data() {
     return {
       photographer: {
@@ -42,7 +69,10 @@ export default {
         intro: '',
         avatar: ''
       },
-      saveBtnDisabled: false // 保存按钮是否禁用,
+      saveBtnDisabled: false, // 保存按钮是否禁用,
+      imagecropperShow: false, // 上传弹框组件是否显示
+      imagecropperKey: 0, // 上传组件key的值
+      VUE_APP_BASE_API: process.env.VUE_APP_BASE_API // 获取端口号
     }
   },
   watch: { // 监听
@@ -54,6 +84,18 @@ export default {
     this.init()
   },
   methods: {
+    // 上传成功的方法
+    cropSuccess(data) {
+      // 上传成功之后接口返回地址
+      this.photographer.avatar = data.url
+      this.imagecropperShow = false
+    },
+    // 关闭上传弹框
+    close() {
+      this.imagecropperShow = false
+      // 上传组件初始化
+      this.imagecropperKey = this.imagecropperKey + 1
+    },
     init() {
       if (this.$route.params && this.$route.params.id) {
         // 从路径获取id值
@@ -88,7 +130,7 @@ export default {
             message: '添加成功'
           })
           // 回到列表页面
-          this.$router.push({ path: '/photographer/table' })
+          this.$router.push({ path: '/photographer/list' })
         }).catch((response) => {
           this.$message({
             type: 'error',
@@ -105,7 +147,7 @@ export default {
             type: 'success',
             message: '修改成功'
           })
-          this.$router.push({ path: '/photographer/table' })
+          this.$router.push({ path: '/photographer/list' })
         }).catch((response) => {
           this.$message({
             type: 'error',

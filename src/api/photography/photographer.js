@@ -3,10 +3,10 @@ import request from '@/utils/request'
 export default {
 
   /**
-   * 条件查询带分页
+   * 根据条件分页查询摄影师
    * @param current 当前页
    * @param limit 每页记录数
-   * @param photographerQuery
+   * @param photographerQuery 查询条件
    * @returns {AxiosPromise}
    */
   getPhotographerListPage(current, limit, searchObj) {
@@ -43,7 +43,7 @@ export default {
   },
 
   /**
-   * 根据摄影师id查询
+   * 根据id查询摄影师
    * @param id
    * @returns {AxiosPromise}
    */

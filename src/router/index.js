@@ -87,7 +87,7 @@ export const constantRoutes = [
   {
     path: '/photographer',
     component: Layout,
-    redirect: '/photographer/table',
+    redirect: '/photographer/list',
     name: '摄影师管理',
     meta: {
       title: '摄影师管理',
@@ -95,7 +95,7 @@ export const constantRoutes = [
     },
     children: [
       {
-        path: 'table',
+        path: 'list',
         component: () => import('@/views/photography/photographer/list'),
         name: '摄影师列表',
         meta: { title: '摄影师列表', icon: 'table' }
@@ -112,6 +112,31 @@ export const constantRoutes = [
         name: '修改摄影师',
         hidden: true,
         meta: { title: '修改摄影师', icon: 'tree' }
+      }
+    ]
+  },
+  {
+    path: '/course',
+    component: Layout,
+    redirect: '/course/courseSubjectOneList',
+    name: '课程管理',
+    meta: {
+      title: '课程管理',
+      icon: 'example'
+    },
+    children: [
+      {
+        path: 'courseSubjectOneList',
+        component: () => import('@/views/course/courseSubjectOneList'),
+        name: '课程分类管理',
+        meta: { title: '课程分类管理', icon: 'table' }
+      },
+      {
+        path: 'courseSubjectTwoList/:id',
+        component: () => import('@/views/course/courseSubjectTwoList'),
+        name: '课程二级分类管理',
+        hidden: true,
+        meta: { title: '课程二级分类管理', icon: 'tree' }
       }
     ]
   },

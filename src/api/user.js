@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/photography/user/login',
+    url: '/photographerservice/user/login',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/photography/user/info',
+    url: '/photographerservice/user/info',
     method: 'get',
     params: { token }
   })
