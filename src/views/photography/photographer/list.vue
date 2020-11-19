@@ -34,6 +34,7 @@
 
       <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
+      <el-button type="default" @click="down()">下载</el-button>
     </el-form>
     <!-- 表格 -->
     <el-table
@@ -144,8 +145,28 @@ export default {
             })
             // 回到列表页面
             this.getList()
+          }).catch((response) => {
+            this.$message({
+              type: 'error',
+              message: '删除失败'
+            })
           })
       })
+    },
+    // 下载excel
+    down() {
+      photographerApi.down()
+        .then(response => {
+          this.$message({
+            type: 'success',
+            message: '下载成功！'
+          })
+        }).catch((response) => {
+          this.$message({
+            type: 'error',
+            message: '下载失败'
+          })
+        })
     }
   }
 

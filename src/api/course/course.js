@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export default {
   /**
-   * 获取一级分类列表
+   * 查询课程一级分类
    * @param current 当前页
    * @param limit 每页记录数
    * @param searchObj 查询条件
@@ -13,6 +13,29 @@ export default {
       url: `/courseservice/course-subject-one/pageCourseSubjectOne/${current}/${limit}`,
       method: 'post',
       data: searchObj
+    })
+  },
+  /**
+   * 根据id查询课程一级分类
+   * @param id
+   * @returns {AxiosPromise}
+   */
+  getOneListById(id) {
+    return request({
+      url: `/courseservice/course-subject-one/getCourseSubjectOneById/${id}`,
+      method: 'get'
+    })
+  },
+  /**
+   * 修改一级分类列表
+   * @param form
+   * @returns {AxiosPromise}
+   */
+  updateCourseSubjectOne(form) {
+    return request({
+      url: `/courseservice/course-subject-one/updateCourseSubjectOne`,
+      method: 'post',
+      data: form
     })
   },
   /**
@@ -38,6 +61,41 @@ export default {
       url: `/courseservice/course-subject-two/pageCourseSubjectTwo/${parentId}/${current}/${limit}`,
       method: 'post',
       data: serchObj
+    })
+  },
+  /**
+   * 新增课程一级分类
+   * @param form
+   * @returns {AxiosPromise}
+   */
+  addCourseSubjectOne(form) {
+    return request({
+      url: `/courseservice/course-subject-one/addList`,
+      method: 'post',
+      data: form
+    })
+  },
+  /**
+   * 下载excel
+   * @returns {AxiosPromise}
+   */
+  down() {
+    return request({
+      url: `/courseservice/course-subject-one/download`,
+      method: 'get'
+    })
+  },
+  /**
+   * 新增二级课程分类
+   * @param parentId 一级课程分类id
+   * @param form 二级课程分类
+   * @returns {*}
+   */
+  addCourseSubjectTwo(data) {
+    return request({
+      url: `/courseservice/course-subject-two/addList`,
+      method: 'post',
+      data: data
     })
   }
 }

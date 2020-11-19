@@ -65,5 +65,15 @@ export default {
       method: 'post',
       data: photographer
     })
+  },
+  /**
+   * 下载excel
+   * @returns {AxiosPromise}
+   */
+  down() {
+    return request({
+      url: `/photographerservice/photographer/download`,
+      method: 'get'
+    })
   }
 }
