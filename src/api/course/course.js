@@ -76,7 +76,7 @@ export default {
     })
   },
   /**
-   * 下载excel
+   * 下载课程一级分类excel
    * @returns {AxiosPromise}
    */
   down() {
@@ -96,6 +96,50 @@ export default {
       url: `/courseservice/course-subject-two/addList`,
       method: 'post',
       data: data
+    })
+  },
+  /**
+   * 根据id查询课程二级分类
+   * @param id 课程二级分类id
+   * @returns {AxiosPromise}
+   */
+  getTwoListById(id) {
+    return request({
+      url: `/courseservice/course-subject-two/${id}`,
+      method: 'get'
+    })
+  },
+  /**
+   * 修改课程二级分类
+   * @param form
+   * @returns {AxiosPromise}
+   */
+  updateCourseSubjectTwo(form) {
+    return request({
+      url: `/courseservice/course-subject-two/updateList`,
+      method: 'post',
+      data: form
+    })
+  },
+  /**
+   * 删除课程二级分类
+   * @param id
+   * @returns {AxiosPromise}
+   */
+  deleteCourseSubjectTwo(id) {
+    return request({
+      url: `/courseservice/course-subject-two/delete/${id}`,
+      method: 'delete'
+    })
+  },
+  /**
+   * 下载课程二级分类excel
+   * @returns {AxiosPromise}
+   */
+  downTwo(id) {
+    return request({
+      url: `/courseservice/course-subject-two/download/${id}`,
+      method: 'get'
     })
   }
 }

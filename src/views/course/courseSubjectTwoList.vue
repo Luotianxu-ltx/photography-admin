@@ -30,6 +30,7 @@
 
       <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
+      <el-button type="default" @click="download()">下载</el-button>
     </el-form>
     <!-- 表格 -->
     <el-table
@@ -74,7 +75,7 @@
       @current-change="getList"
     />
     <!--修改弹出框-->
-    <el-dialog title="修改课程二级目录" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改课程二级目录" :visible.sync="dialogFormVisible" @close="closeDialog">
       <el-form>
         <el-form-item label="课程二级目录名称">
           <el-input v-model="form.title" auto-complete="off" />
@@ -86,7 +87,7 @@
       </div>
     </el-dialog>
     <!--新增弹出框-->
-    <el-dialog title="修改课程二级目录" :visible.sync="dialogFormVisible1">
+    <el-dialog title="修改课程二级目录" :visible.sync="dialogFormVisible1" @close="closeDialog">
       <el-form>
         <el-form-item label="课程二级目录名称">
           <el-input v-model="form.title" auto-complete="off" />
@@ -113,9 +114,7 @@ export default {
       list: null,
       listLoading: true,
       parentId: null,
-      form: {
-        title: null
-      },
+      form: {},
       dialogFormVisible: false,
       dialogFormVisible1: false
     }
@@ -124,6 +123,63 @@ export default {
     this.init()
   },
   methods: {
+    download() {
+      courseApi.downTwo(this.parentId)
+        .then(response => {
+          this.$message({
+            type: 'success',
+            message: '下载成功！'
+          })
+        }).catch((response) => {
+          this.$message({
+            type: 'error',
+            message: '下载失败'
+          })
+        })
+    },
+    // 删除课程二级分类
+    removeDataById(id) {
+      this.$confirm('此操做将永久删除课程二级分类，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        courseApi.deleteCourseSubjectTwo(id)
+          .then(response => {
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            this.getList()
+          }).catch((response) => {
+            this.$message({
+              type: 'error',
+              message: '删除失败'
+            })
+          })
+      })
+    },
+    closeDialog() {
+      this.form = {}
+    },
+    // 修改课程二级分类
+    updateById() {
+      courseApi.updateCourseSubjectTwo(this.form)
+        .then(response => {
+          this.init()
+          this.dialogFormVisible = false
+          this.$message({
+            type: 'success',
+            message: '修改成功！'
+          })
+        }).catch((response) => {
+          this.$message({
+            type: 'error',
+            message: '修改失败'
+          })
+        })
+    },
+    // 新增课程二级类别
     add() {
       const data = {
         'parentId': this.parentId,
@@ -132,6 +188,7 @@ export default {
       courseApi.addCourseSubjectTwo(data)
         .then(response => {
           this.init()
+          this.dialogFormVisible1 = false
           this.$message({
             type: 'success',
             message: '新增成功！'
@@ -146,9 +203,9 @@ export default {
     // 根据id查询二级分类名称
     update(id) {
       this.dialogFormVisible = true
-      courseApi.getOneListById(id)
+      courseApi.getTwoListById(id)
         .then(response => {
-          this.form = response.data.courseSubjectOneList
+          this.form = response.data.list2
         })
         .catch(error => {
           console.log(error)

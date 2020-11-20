@@ -83,7 +83,7 @@
       @current-change="getList"
     />
     <!--修改弹出框-->
-    <el-dialog title="修改课程一级目录" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改课程一级目录" :visible.sync="dialogFormVisible" @close="closeDialog">
       <el-form>
         <el-form-item label="课程一级目录名称">
           <el-input v-model="form.title" auto-complete="off" />
@@ -95,7 +95,7 @@
       </div>
     </el-dialog>
     <!--新增弹出框-->
-    <el-dialog title="修改课程一级目录" :visible.sync="dialogFormVisible1">
+    <el-dialog title="修改课程一级目录" :visible.sync="dialogFormVisible1" @close="closeDialog">
       <el-form>
         <el-form-item label="课程一级目录名称">
           <el-input v-model="form.title" auto-complete="off" />
@@ -121,9 +121,7 @@ export default {
       searchObj: {},
       list: null,
       listLoading: true,
-      form: {
-        title: null
-      },
+      form: {},
       dialogFormVisible: false,
       dialogFormVisible1: false
     }
@@ -132,6 +130,9 @@ export default {
     this.getList()
   },
   methods: {
+    closeDialog() {
+      this.form = {}
+    },
     // 下载excel
     download() {
       courseApi.down()
@@ -153,7 +154,6 @@ export default {
         .then(response => {
           this.dialogFormVisible1 = false
           this.getList()
-          this.form.title = null
           this.$message({
             type: 'success',
             message: '新增成功'
@@ -171,7 +171,6 @@ export default {
         .then(response => {
           this.dialogFormVisible = false
           this.getList()
-          this.form.title = null
           this.$message({
             type: 'success',
             message: '修改成功'
