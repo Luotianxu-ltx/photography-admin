@@ -75,5 +75,11 @@ export default {
       url: `/photographerservice/photographer/download`,
       method: 'get'
     })
+  },
+  getAllList() {
+    return request({
+      url: `/photographerservice/photographer/list`,
+      method: 'get'
+    })
   }
 }

@@ -116,27 +116,79 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/course',
+    path: '/courseSubject',
     component: Layout,
-    redirect: '/course/courseSubjectOneList',
-    name: '课程管理',
+    redirect: '/courseSubject/courseSubjectOneList',
+    name: '课程分类管理',
     meta: {
-      title: '课程管理',
+      title: '课程分类管理',
       icon: 'example'
     },
     children: [
       {
+        path: 'list',
+        component: () => import('@/views/photography/courseSubject/list'),
+        name: '课程分类列表',
+        meta: { title: '课程分类列表', icon: 'table' }
+      },
+      {
         path: 'courseSubjectOneList',
-        component: () => import('@/views/course/courseSubjectOneList'),
+        component: () => import('@/views/photography/courseSubject/courseSubjectOneList'),
         name: '课程分类管理',
         meta: { title: '课程分类管理', icon: 'table' }
       },
       {
         path: 'courseSubjectTwoList/:id',
-        component: () => import('@/views/course/courseSubjectTwoList'),
+        component: () => import('@/views/photography/courseSubject/courseSubjectTwoList'),
         name: '课程二级分类管理',
         hidden: true,
         meta: { title: '课程二级分类管理', icon: 'tree' }
+      }
+    ]
+  },
+  // 课程管理
+  {
+    path: '/course',
+    component: Layout,
+    redirect: '/course/list',
+    name: '课程管理',
+    meta: {
+      title: '课程管理',
+      icon: 'form'
+    },
+    children: [
+      {
+        path: 'list',
+        name: '课程列表',
+        component: () => import('@/views/photography/course/list'),
+        meta: { title: '课程列表' }
+      },
+      {
+        path: 'info',
+        name: '发布课程',
+        component: () => import('@/views/photography/course/info'),
+        meta: { title: '发布课程' }
+      },
+      {
+        path: 'info/:id',
+        name: '编辑课程基本信息',
+        component: () => import('@/views/photography/course/info'),
+        meta: { title: '编辑课程基本信息', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'chapter/:id',
+        name: '编辑课程大纲',
+        component: () => import('@/views/photography/course/chapter'),
+        meta: { title: '编辑课程大纲', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'publish/:id',
+        name: '发布课程',
+        component: () => import('@/views/photography/course/publish'),
+        meta: { title: '发布课程', noCache: true },
+        hidden: true
       }
     ]
   },

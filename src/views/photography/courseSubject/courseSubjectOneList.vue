@@ -60,7 +60,7 @@
 
       <el-table-column label="二级分类操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/course/courseSubjectTwoList/'+scope.row.id">
+          <router-link :to="'/courseSubject/courseSubjectTwoList/'+scope.row.id">
             <el-button type="primary" size="mini" icon="el-icon-edit">编辑</el-button>
           </router-link>
         </template>
@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import courseApi from '@/api/course/course'
+import courseApi from '@/api/photography/courseSubject'
 
 export default {
   data() {

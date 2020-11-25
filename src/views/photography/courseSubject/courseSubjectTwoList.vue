@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import courseApi from '@/api/course/course'
+import courseApi from '@/api/photography/courseSubject'
 
 export default {
   data() {

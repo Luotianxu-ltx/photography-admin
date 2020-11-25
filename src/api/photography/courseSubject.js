@@ -141,5 +141,15 @@ export default {
       url: `/courseservice/course-subject-two/download/${id}`,
       method: 'get'
     })
+  },
+  /**
+   * 获取树形结构
+   * @returns {AxiosPromise}
+   */
+  getAllListTree() {
+    return request({
+      url: `/courseservice/course-subject-one/getAllSubject`,
+      method: 'get'
+    })
   }
 }

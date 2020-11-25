@@ -56,7 +56,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="name" label="名称" width="80" />
+      <el-table-column prop="name" label="名称" width="150" />
 
       <el-table-column label="头衔" width="100">
         <template slot-scope="scope">
