@@ -34,5 +34,39 @@ export default {
       method: 'post',
       data: courseInfo
     })
+  },
+  /**
+   * 课程确认信息
+   * @param id
+   * @returns {AxiosPromise}
+   */
+  getPublishCourseInfo(id) {
+    return request({
+      url: `/courseservice/course/getPublishInfo/${id}`,
+      method: 'get'
+    })
+  },
+  /**
+   * 课程最终发布
+   * @param id
+   * @returns {AxiosPromise}
+   * @constructor
+   */
+  publishCourse(id) {
+    return request({
+      url: `/courseservice/course/publishCourse/${id}`,
+      method: 'get'
+    })
+  },
+  /**
+   * 课程列表
+   * @param id
+   * @returns {AxiosPromise}
+   */
+  getListCourse(id) {
+    return request({
+      url: `/courseservice/course/getCourseList`,
+      method: 'get'
+    })
   }
 }
