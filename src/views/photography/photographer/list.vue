@@ -32,7 +32,7 @@
         />
       </el-form-item>
 
-      <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
       <el-button type="default" @click="resetData()">清空</el-button>
       <el-button type="default" @click="down()">下载</el-button>
     </el-form>
