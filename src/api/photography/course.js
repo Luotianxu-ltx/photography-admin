@@ -63,9 +63,20 @@ export default {
    * @param id
    * @returns {AxiosPromise}
    */
-  getListCourse(id) {
+  getListCourse(current, limit, searchObj) {
     return request({
-      url: `/courseservice/course/getCourseList`,
+      url: `/courseservice/course/pageCourseCondition/${current}/${limit}`,
+      method: 'post',
+      data: searchObj
+    })
+  },
+  /**
+   * 下载excel
+   * @returns {AxiosPromise}
+   */
+  down() {
+    return request({
+      url: `/courseservice/course/download`,
       method: 'get'
     })
   }

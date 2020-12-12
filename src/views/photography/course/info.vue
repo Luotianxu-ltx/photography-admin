@@ -18,7 +18,6 @@
 
       <el-form-item label="课程分类">
         <el-select v-model="one" placeholder="一级分类" @change="subjectLevelOneChanged">
-
           <el-option
             v-for="subject in subjectOneList"
             :key="subject.id"

@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="courseQuery.name" placeholder="课程名称" />
+        <el-input v-model="courseQuery.title" placeholder="课程名称" />
       </el-form-item>
 
       <el-form-item>
@@ -12,6 +12,10 @@
           <el-option :value="Draft" label="未发布" />
         </el-select>
       </el-form-item>
+
+      <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
+      <el-button type="default" @click="resetData()">清空</el-button>
+      <el-button type="default" @click="down()">下载</el-button>
     </el-form>
     <!-- 表格 -->
     <el-table
@@ -41,7 +45,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="lessonNum" label="课时数" width="100"/>
+      <el-table-column prop="lessonNum" label="课时数" width="100" />
 
       <el-table-column prop="gmtCreate" label="添加时间" width="160" />
 
@@ -75,6 +79,7 @@
 
 <script>
 import courseApi from '@/api/photography/course'
+import photographerApi from '@/api/photography/photographer'
 
 export default {
   data() {
@@ -91,10 +96,12 @@ export default {
   },
   methods: {
     // 获取摄影师列表
-    getList() {
-      courseApi.getListCourse()
+    getList(page = 1) {
+      this.page = page
+      courseApi.getListCourse(this.page, this.limit, this.courseQuery)
         .then(response => {
           this.list = response.data.list // 表格数据
+          this.total = response.data.total
           this.listLoading = false
         })
         .catch(error => {
@@ -104,9 +111,24 @@ export default {
     // 清空的方法
     resetData() {
       // 表单输入项数据清空
-      this.courseObj = {}
+      this.courseQuery = {}
       // 查询所有讲师数据
       this.getList()
+    },
+    // 下载excel
+    down() {
+      courseApi.down()
+        .then(response => {
+          this.$message({
+            type: 'success',
+            message: '下载成功！'
+          })
+        }).catch((response) => {
+          this.$message({
+            type: 'error',
+            message: '下载失败'
+          })
+        })
     }
   }
 
