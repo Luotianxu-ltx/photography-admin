@@ -12,7 +12,7 @@
 
     <el-form label-width="120px">
 
-      <el-form-item label="课程标题">
+      <el-form-item label="课程标题1">
         <el-input v-model="courseInfo.title" placeholder=" 示例：机器学习项目课：从基础到搭建项目视频课程。专业名称注意大小写" />
       </el-form-item>
 
