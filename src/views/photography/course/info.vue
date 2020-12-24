@@ -28,7 +28,7 @@
         </el-select>
 
         <!-- 二级分类 -->
-        <el-select v-model="courseInfo.subjectId" placeholder="二级分类">
+        <el-select v-model="courseInfo.subjectId" placeholder="二级分类" style="margin-left: 5px">
           <el-option
             v-for="subject in subjectTwoList"
             :key="subject.id"
@@ -219,7 +219,7 @@ export default {
     updateCourse() {
       courseApi.updateCourseInfo(this.courseInfo)
         .then(response => {
-        // 提示
+          // 提示
           this.$message({
             type: 'success',
             message: '修改课程信息成功！'

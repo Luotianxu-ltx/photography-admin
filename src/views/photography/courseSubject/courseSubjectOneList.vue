@@ -38,6 +38,8 @@
           <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
           <el-button type="default" @click="resetData()">清空</el-button>
           <el-button type="default" @click="download()">下载</el-button>
+          <el-button type="default" @click="allSubject()">全部分类</el-button>
+
         </el-form>
       </div>
     </el-card>
@@ -71,7 +73,7 @@
 
       <el-table-column label="二级分类操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/courseSubject/courseSubjectTwoList/'+scope.row.id">
+          <router-link :to="'/course/courseSubjectTwoList/'+scope.row.id">
             <el-button type="primary" size="mini" icon="el-icon-edit">编辑</el-button>
           </router-link>
         </template>
@@ -117,6 +119,19 @@
         <el-button type="primary" @click="add()">确 定</el-button>
       </div>
     </el-dialog>
+    <!--课程分类列表弹出框-->
+    <el-dialog title="课程分类列表" :visible.sync="dialogFormVisible2">
+      <el-input v-model="filterText" placeholder="搜索" style="margin-bottom:30px;" />
+
+      <el-tree
+        ref="subjectTree"
+        :data="data2"
+        :props="defaultProps"
+        :filter-node-method="filterNode"
+        class="filter-tree"
+        default-expand-all
+      />
+    </el-dialog>
   </div>
 </template>
 
@@ -135,6 +150,13 @@ export default {
       form: {},
       dialogFormVisible: false,
       dialogFormVisible1: false,
+      dialogFormVisible2: false,
+      filterText: '', // 搜索
+      data2: [], // 返回所有分类的数据
+      defaultProps: {
+        children: 'children',
+        label: 'title'
+      },
       rules: {
         title: [
           { required: true, message: '请输入课程一级分类', trigger: 'blur' }
@@ -142,10 +164,29 @@ export default {
       }
     }
   },
+  watch: {
+    filterText(val) {
+      this.$refs.subjectTree.filter(val)
+    }
+  },
   created() {
     this.getList()
+    this.getAllSubjectList()
   },
   methods: {
+    allSubject() {
+      this.dialogFormVisible2 = true
+    },
+    getAllSubjectList() {
+      courseApi.getAllListTree()
+        .then(response => {
+          this.data2 = response.data.list
+        })
+    },
+    filterNode(value, data) {
+      if (!value) return true
+      return data.title.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    },
     closeDialog() {
       this.form = {}
       this.$nextTick(() => {

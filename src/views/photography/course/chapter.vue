@@ -43,7 +43,7 @@
     </div>
 
     <!-- 添加和修改章节表单 -->
-    <el-dialog :visible.sync="dialogChapterFormVisible" title="添加章节">
+    <el-dialog :visible.sync="dialogChapterFormVisible" title="添加章节" @close="closeDialog">
       <el-form :model="chapter" label-width="120px">
         <el-form-item label="章节标题">
           <el-input v-model="chapter.title" />
@@ -59,7 +59,7 @@
     </el-dialog>
 
     <!-- 添加和修改小节表单 -->
-    <el-dialog :visible.sync="dialogVideoFormVisible" title="添加课时">
+    <el-dialog :visible.sync="dialogVideoFormVisible" title="添加课时" @close="closeDialog">
       <el-form :model="video" label-width="120px">
         <el-form-item label="课时标题">
           <el-input v-model="video.title" />
@@ -163,6 +163,13 @@ export default {
       this.addVideo()
     },
     // =======================章节操作===================//
+    closeDialog() {
+      this.chapter = {}
+      this.video = {}
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+    },
     // 删除章节
     deleteChapter(chapter) {
       this.$confirm('此操作将永久删除章节，是否继续？', '提示', {

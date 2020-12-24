@@ -91,14 +91,14 @@ export const constantRoutes = [
     name: '摄影师管理',
     meta: {
       title: '摄影师管理',
-      icon: 'example'
+      icon: 'el-icon-s-custom'
     },
     children: [
       {
         path: 'list',
         component: () => import('@/views/photography/photographer/list'),
         name: '摄影师列表',
-        meta: { title: '摄影师列表', icon: 'table' }
+        meta: { title: '摄影师列表', icon: 'list' }
       },
       {
         path: 'save',
@@ -111,38 +111,7 @@ export const constantRoutes = [
         component: () => import('@/views/photography/photographer/save'),
         name: '修改摄影师',
         hidden: true,
-        meta: { title: '修改摄影师', icon: 'tree'}
-      }
-    ]
-  },
-  {
-    path: '/courseSubject',
-    component: Layout,
-    redirect: '/courseSubject/courseSubjectOneList',
-    name: '课程分类管理',
-    meta: {
-      title: '课程分类管理',
-      icon: 'example'
-    },
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/photography/courseSubject/list'),
-        name: '课程分类列表',
-        meta: { title: '课程分类列表', icon: 'table' }
-      },
-      {
-        path: 'courseSubjectOneList',
-        component: () => import('@/views/photography/courseSubject/courseSubjectOneList'),
-        name: '课程分类管理',
-        meta: { title: '课程分类管理', icon: 'table' }
-      },
-      {
-        path: 'courseSubjectTwoList/:id',
-        component: () => import('@/views/photography/courseSubject/courseSubjectTwoList'),
-        name: '课程二级分类管理',
-        hidden: true,
-        meta: { title: '课程二级分类管理', icon: 'tree' }
+        meta: { title: '修改摄影师', icon: 'tree' }
       }
     ]
   },
@@ -158,16 +127,29 @@ export const constantRoutes = [
     },
     children: [
       {
+        path: 'courseSubjectOneList',
+        component: () => import('@/views/photography/courseSubject/courseSubjectOneList'),
+        name: '课程分类管理',
+        meta: { title: '课程分类管理', icon: 'tree' }
+      },
+      {
+        path: 'courseSubjectTwoList/:id',
+        component: () => import('@/views/photography/courseSubject/courseSubjectTwoList'),
+        name: '课程二级分类管理',
+        hidden: true,
+        meta: { title: '课程二级分类管理', icon: 'tree' }
+      },
+      {
         path: 'list',
         name: '课程列表',
         component: () => import('@/views/photography/course/list'),
-        meta: { title: '课程列表' }
+        meta: { title: '课程列表', icon: 'list' }
       },
       {
         path: 'info',
         name: '发布课程',
         component: () => import('@/views/photography/course/info'),
-        meta: { title: '发布课程' }
+        meta: { title: '发布课程', icon: 'tree' }
       },
       {
         path: 'info/:id',
@@ -200,7 +182,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation'}
+        meta: { title: 'Documentation', icon: 'documentation' }
       }
     ]
   },
@@ -477,17 +459,6 @@ export const asyncRoutes = [
         component: () => import('@/views/clipboard/index'),
         name: 'ClipboardDemo',
         meta: { title: 'Clipboard', icon: 'clipboard' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: 'External Link', icon: 'link' }
       }
     ]
   },

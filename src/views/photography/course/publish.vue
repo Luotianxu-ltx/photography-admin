@@ -16,7 +16,7 @@
         <h2>{{ coursePublish.title }}</h2>
         <p class="gray"><span>共{{ coursePublish.lessonNum }}课时</span></p>
         <p><span>所属分类：{{ coursePublish.subjectLevelOne }} — {{ coursePublish.subjectLevelTwo }}</span></p>
-        <p>课程讲师：{{ coursePublish.teacherName }}</p>
+        <p>课程讲师：{{ coursePublish.photographerName }}</p>
         <h3 class="red">￥{{ coursePublish.price }}</h3>
       </div>
     </div>
@@ -57,7 +57,7 @@ export default {
     },
     previous() {
       console.log('previous')
-      this.$router.push({ path: '/course/chapter/1' })
+      this.$router.push({ path: '/course/chapter/' + this.courseId })
     },
     publish() {
       courseApi.publishCourse(this.courseId)
