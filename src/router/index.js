@@ -111,7 +111,7 @@ export const constantRoutes = [
         component: () => import('@/views/photography/photographer/save'),
         name: '修改摄影师',
         hidden: true,
-        meta: { title: '修改摄影师', icon: 'tree' }
+        meta: { title: '修改摄影师', icon: 'tree'}
       }
     ]
   },
@@ -200,7 +200,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
+        meta: { title: 'Documentation', icon: 'documentation'}
       }
     ]
   },

@@ -187,7 +187,7 @@ export default {
         this.postForm.content_short += `   Article Id:${this.postForm.id}`
 
         // set tagsview title
-        this.setTagsViewTitle()
+        // this.setTagsViewTitle()
 
         // set page title
         this.setPageTitle()
