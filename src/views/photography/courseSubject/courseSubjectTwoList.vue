@@ -1,37 +1,47 @@
 <template>
   <div class="app-container">
     <!--查询表单-->
-    <el-form :inline="true" class="demo-form-inline">
-      <el-form-item>
-        <el-button type="primary" @click="dialogFormVisible1 = true">新增</el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="searchObj.name" placeholder="二级分类名" />
-      </el-form-item>
+    <el-card class="filter-container" shadow="never">
+      <div>
+        <i class="el-icon-search"></i>
+        <span>筛选搜索</span>
+      </div>
 
-      <el-form-item label="添加时间">
-        <el-date-picker
-          v-model="searchObj.begin"
-          type="datetime"
-          placeholder="选择开始时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-date-picker
-          v-model="searchObj.end"
-          type="datetime"
-          placeholder="选择截止时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
-      </el-form-item>
+      <div style="margin-top: 20px">
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-button type="primary" @click="dialogFormVisible1 = true">新增</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="searchObj.name" placeholder="二级分类名" />
+          </el-form-item>
 
-      <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
-      <el-button type="default" @click="resetData()">清空</el-button>
-      <el-button type="default" @click="download()">下载</el-button>
-    </el-form>
+          <el-form-item label="添加时间">
+            <el-date-picker
+              v-model="searchObj.begin"
+              type="datetime"
+              placeholder="选择开始时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-date-picker
+              v-model="searchObj.end"
+              type="datetime"
+              placeholder="选择截止时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
+
+          <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
+          <el-button type="default" @click="resetData()">清空</el-button>
+          <el-button type="default" @click="download()">下载</el-button>
+        </el-form>
+      </div>
+    </el-card>
+
     <!-- 表格 -->
     <el-table
       v-loading="listLoading"
@@ -40,6 +50,7 @@
       border
       fit
       highlight-current-row
+      style="margin-top: 20px"
     >
 
       <el-table-column
@@ -76,9 +87,9 @@
     />
     <!--修改弹出框-->
     <el-dialog title="修改课程二级目录" :visible.sync="dialogFormVisible" @close="closeDialog">
-      <el-form>
-        <el-form-item label="课程二级目录名称">
-          <el-input v-model="form.title" auto-complete="off" />
+      <el-form :rules="rules" ref="form" :model="form">
+        <el-form-item label="课程二级目录名称" prop="title">
+          <el-input v-model="form.title"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -88,9 +99,9 @@
     </el-dialog>
     <!--新增弹出框-->
     <el-dialog title="修改课程二级目录" :visible.sync="dialogFormVisible1" @close="closeDialog">
-      <el-form>
-        <el-form-item label="课程二级目录名称">
-          <el-input v-model="form.title" auto-complete="off" />
+      <el-form :rules="rules" ref="form" :model="form">
+        <el-form-item label="课程二级目录名称" prop="title">
+          <el-input v-model="form.title"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -116,7 +127,12 @@ export default {
       parentId: null,
       form: {},
       dialogFormVisible: false,
-      dialogFormVisible1: false
+      dialogFormVisible1: false,
+      rules: {
+        title: [
+          { required: true, message: '请输入课程二级分类', trigger: 'blur' }
+        ]
+      }
     }
   },
   created() {
@@ -161,6 +177,9 @@ export default {
     },
     closeDialog() {
       this.form = {}
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
     },
     // 修改课程二级分类
     updateById() {

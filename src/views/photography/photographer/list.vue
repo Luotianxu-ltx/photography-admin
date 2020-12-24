@@ -1,41 +1,51 @@
 <template>
   <div class="app-container">
     <!--查询表单-->
-    <el-form :inline="true" class="demo-form-inline">
-      <el-form-item>
-        <el-input v-model="searchObj.name" placeholder="摄影师名" />
-      </el-form-item>
+    <el-card class="filter-container" shadow="never">
+      <div>
+        <i class="el-icon-search"></i>
+        <span>筛选搜索</span>
+      </div>
 
-      <el-form-item>
-        <el-select v-model="searchObj.level" clearable placeholder="摄影师头衔">
-          <el-option :value="1" label="签约摄影师" />
-          <el-option :value="2" label="爱好者" />
-        </el-select>
-      </el-form-item>
+      <div style="margin-top: 20px">
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-input v-model="searchObj.name" placeholder="摄影师名" />
+          </el-form-item>
 
-      <el-form-item label="添加时间">
-        <el-date-picker
-          v-model="searchObj.begin"
-          type="datetime"
-          placeholder="选择开始时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-date-picker
-          v-model="searchObj.end"
-          type="datetime"
-          placeholder="选择截止时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="00:00:00"
-        />
-      </el-form-item>
+          <el-form-item>
+            <el-select v-model="searchObj.level" clearable placeholder="摄影师头衔">
+              <el-option :value="1" label="签约摄影师" />
+              <el-option :value="2" label="爱好者" />
+            </el-select>
+          </el-form-item>
 
-      <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
-      <el-button type="default" @click="resetData()">清空</el-button>
-      <el-button type="default" @click="down()">下载</el-button>
-    </el-form>
+          <el-form-item label="添加时间">
+            <el-date-picker
+              v-model="searchObj.begin"
+              type="datetime"
+              placeholder="选择开始时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-date-picker
+              v-model="searchObj.end"
+              type="datetime"
+              placeholder="选择截止时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
+
+          <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
+          <el-button type="default" @click="resetData()">清空</el-button>
+          <el-button type="default" @click="down()">下载</el-button>
+        </el-form>
+      </div>
+    </el-card>
+
     <!-- 表格 -->
     <el-table
       v-loading="listLoading"
@@ -44,6 +54,7 @@
       border
       fit
       highlight-current-row
+      style="margin-top: 20px"
     >
 
       <el-table-column
@@ -53,6 +64,20 @@
       >
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="头像" width="100" align="center">
+        <template slot-scope="scope">
+          <el-popover placement="right" trigger="hover">
+            <img :src="scope.row.avatar" style="height: 100px; width: 100px"  alt="scope.row.name"/>
+            <img
+              slot="reference"
+              :src="scope.row.avatar"
+              :alt="scope.row.name"
+              style="height: 40px; width: 40px"
+            />
+          </el-popover>
         </template>
       </el-table-column>
 
@@ -68,11 +93,9 @@
 
       <el-table-column prop="gmtCreate" label="添加时间" width="160" />
 
-      <el-table-column prop="sort" label="排序" width="60" />
-
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/photographer/edit/'+scope.row.id">
+          <router-link :to="'/photographer/edit/'+scope.row.id" style="padding-right: 5px">
             <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeDataById(scope.row.id)">删除</el-button>

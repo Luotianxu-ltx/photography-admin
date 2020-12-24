@@ -1,11 +1,8 @@
 <template>
   <div class="app-container">
-    <el-form label-width="120px">
-      <el-form-item label="摄影师名称">
-        <el-input v-model="photographer.name" />
-      </el-form-item>
-      <el-form-item label="摄影师排序">
-        <el-input-number v-model="photographer.sort" controls-position="right" />
+    <el-form label-width="120px" :rules="formRules" :model="photographer">
+      <el-form-item label="摄影师名称" prop="name">
+        <el-input v-model="photographer.name"></el-input>
       </el-form-item>
       <el-form-item label="摄影师头衔">
         <el-select v-model="photographer.level" clearable placeholder="请选择">
@@ -13,7 +10,7 @@
           <el-option :value="2" label="爱好者" />
         </el-select>
       </el-form-item>
-      <el-form-item label="摄影师资历">
+      <el-form-item label="摄影师资历" prop="career">
         <el-input v-model="photographer.career" />
       </el-form-item>
       <el-form-item label="摄影师简介">
@@ -72,7 +69,15 @@ export default {
       saveBtnDisabled: false, // 保存按钮是否禁用,
       imagecropperShow: false, // 上传弹框组件是否显示
       imagecropperKey: 0, // 上传组件key的值
-      VUE_APP_BASE_API: process.env.VUE_APP_BASE_API // 获取端口号
+      VUE_APP_BASE_API: process.env.VUE_APP_BASE_API, // 获取端口号
+      formRules: {
+        name: [
+          { required: true, message: '请输入摄影师姓名', trigger: 'blur' }
+        ],
+        career: [
+          { required: true, message: '请输入摄影师资历', trigger: 'blur' }
+        ]
+      }
     }
   },
   watch: { // 监听

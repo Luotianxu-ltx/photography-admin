@@ -1,22 +1,31 @@
 <template>
   <div class="app-container">
     <!--查询表单-->
-    <el-form :inline="true" class="demo-form-inline">
-      <el-form-item>
-        <el-input v-model="courseQuery.title" placeholder="课程名称" />
-      </el-form-item>
+    <el-card class="filter-container" shadow="never">
+      <div>
+        <i class="el-icon-search"></i>
+        <span>筛选搜索</span>
+      </div>
 
-      <el-form-item>
-        <el-select v-model="courseQuery.status" clearable placeholder="课程状态">
-          <el-option :value="Normal" label="已发布" />
-          <el-option :value="Draft" label="未发布" />
-        </el-select>
-      </el-form-item>
+      <div style="margin-top: 20px">
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-input v-model="courseQuery.title" placeholder="课程名称" />
+          </el-form-item>
 
-      <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
-      <el-button type="default" @click="resetData()">清空</el-button>
-      <el-button type="default" @click="down()">下载</el-button>
-    </el-form>
+          <el-form-item>
+            <el-select v-model="courseQuery.status" clearable placeholder="课程状态">
+              <el-option :value="Normal" label="已发布" />
+              <el-option :value="Draft" label="未发布" />
+            </el-select>
+          </el-form-item>
+
+          <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
+          <el-button type="default" @click="resetData()">清空</el-button>
+          <el-button type="default" @click="down()">下载</el-button>
+        </el-form>
+      </div>
+    </el-card>
     <!-- 表格 -->
     <el-table
       v-loading="listLoading"
@@ -25,6 +34,7 @@
       border
       fit
       highlight-current-row
+      style="margin-top: 20px"
     >
 
       <el-table-column
@@ -34,6 +44,20 @@
       >
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="头像" width="100" align="center">
+        <template slot-scope="scope">
+          <el-popover placement="right" trigger="hover">
+            <img :src="scope.row.cover" style="height: 100px; width: 100px"  alt="scope.row.name"/>
+            <img
+              slot="reference"
+              :src="scope.row.cover"
+              :alt="scope.row.title"
+              style="height: 40px; width: 40px"
+            />
+          </el-popover>
         </template>
       </el-table-column>
 
