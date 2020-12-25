@@ -35,5 +35,16 @@ export default {
       url: `/courseservice/course-video/${id}`,
       method: 'delete'
     })
+  },
+  /**
+   * 删除视频
+   * @param id 视频id
+   * @returns {AxiosPromise}
+   */
+  deleteAlyvod(id) {
+    return request({
+      url: `/vodservice/video/removeAlyVideo/${id}`,
+      method: 'delete'
+    })
   }
 }

@@ -97,7 +97,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVideoFormVisible = false">取 消</el-button>
-        <el-button :disabled="saveVideoBtnDisabled" type="primary" @click="saveOrUpdateVideo">确 定</el-button>
+        <el-button type="primary" @click="saveOrUpdateVideo">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -139,6 +139,26 @@ export default {
   },
 
   methods: {
+    // 点击确定调用的方法
+    handleVodRemove() {
+      // console.log(file)
+      videoApi.deleteAlyvod(this.video.videoSourceId)
+        .then(response => {
+          this.$message({
+            type: 'success',
+            message: '删除视频成功'
+          })
+          // 文件列表清空
+          this.fileList = []
+          // 把video视频id和视频名称清空
+          this.video.videoSourceId = ''
+          this.video.videoOriginalName = ''
+        })
+    },
+    // 点击叉调用的方法
+    beforeVodRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
     // 上传视频成功回调
     handleVodUploadSuccess(response, file, fileList) {
       // 上传文件id
