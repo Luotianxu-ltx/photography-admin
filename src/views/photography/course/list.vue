@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-card class="filter-container" shadow="never">
       <div>
-        <i class="el-icon-search"></i>
+        <i class="el-icon-search" />
         <span>筛选搜索</span>
       </div>
 
@@ -15,8 +15,19 @@
 
           <el-form-item>
             <el-select v-model="courseQuery.status" clearable placeholder="课程状态">
-              <el-option :value="Normal" label="已发布" />
-              <el-option :value="Draft" label="未发布" />
+              <el-option :value="1" label="已发布" />
+              <el-option :value="0" label="未发布" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item>
+            <el-select v-model="courseQuery.photographerId" placeholder="课程讲师">
+              <el-option
+                v-for="photographer in photographerList"
+                :key="photographer.id"
+                :label="photographer.name"
+                :value="photographer.id"
+              />
             </el-select>
           </el-form-item>
 
@@ -50,13 +61,13 @@
       <el-table-column label="头像" width="100" align="center">
         <template slot-scope="scope">
           <el-popover placement="right" trigger="hover">
-            <img :src="scope.row.cover" style="height: 100px; width: 100px"  alt="scope.row.name"/>
+            <img :src="scope.row.cover" style="height: 100px; width: 100px" alt="scope.row.name">
             <img
               slot="reference"
               :src="scope.row.cover"
               :alt="scope.row.title"
               style="height: 40px; width: 40px"
-            />
+            >
           </el-popover>
         </template>
       </el-table-column>
@@ -65,7 +76,7 @@
 
       <el-table-column label="课程状态" width="100">
         <template slot-scope="scope">
-          {{ scope.row.level==='Normal'?'已发布':'未发布' }}
+          {{ scope.row.status==='1'?'已发布':'未发布' }}
         </template>
       </el-table-column>
 
@@ -103,6 +114,7 @@
 
 <script>
 import courseApi from '@/api/photography/course'
+import photographerApi from '@/api/photography/photographer'
 
 export default {
   data() {
@@ -112,12 +124,39 @@ export default {
       total: 0,
       courseQuery: {},
       list: null,
-      listLoading: true
+      listLoading: true,
+      photographerList: []
     }
   }, created() {
     this.getList()
+    // 初始化所有摄影师
+    this.initPhotographerList()
   },
   methods: {
+    removeDataById(id) {
+      this.$confirm('此操作将永久删除课程记录，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 调用删除方法
+        courseApi.remove(id)
+          .then(response => { // 删除成功
+            // 提示信息
+            this.$message({
+              type: 'success',
+              message: '删除成功！'
+            })
+            // 回到列表页面
+            this.getList()
+          }).catch((response) => {
+            this.$message({
+              type: 'error',
+              message: '删除失败'
+            })
+          })
+      })
+    },
     // 获取摄影师列表
     getList(page = 1) {
       this.page = page
@@ -127,9 +166,12 @@ export default {
           this.total = response.data.total
           this.listLoading = false
         })
-        .catch(error => {
-          console.log(error)
-        })
+    },
+    // 获取摄影师列表
+    initPhotographerList() {
+      photographerApi.getAllList().then(response => {
+        this.photographerList = response.data.list
+      })
     },
     // 清空的方法
     resetData() {

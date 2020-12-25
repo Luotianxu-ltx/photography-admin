@@ -79,5 +79,16 @@ export default {
       url: `/courseservice/course/download`,
       method: 'get'
     })
+  },
+  /**
+   * 删除课程
+   * @param courseId
+   * @returns {AxiosPromise}
+   */
+  remove(courseId) {
+    return request({
+      url: `/courseservice/course/${courseId}`,
+      method: 'delete'
+    })
   }
 }
