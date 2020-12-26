@@ -10,7 +10,7 @@ export default {
    */
   getCourseSubjectOneListPage(current, limit, searchObj) {
     return request({
-      url: `/courseservice/course-subject-one/pageCourseSubjectOne/${current}/${limit}`,
+      url: `/adminservice/courseservice/course-subject-one/pageCourseSubjectOne/${current}/${limit}`,
       method: 'post',
       data: searchObj
     })
@@ -22,7 +22,7 @@ export default {
    */
   getOneListById(id) {
     return request({
-      url: `/courseservice/course-subject-one/getCourseSubjectOneById/${id}`,
+      url: `/adminservice/courseservice/course-subject-one/getCourseSubjectOneById/${id}`,
       method: 'get'
     })
   },
@@ -33,7 +33,7 @@ export default {
    */
   updateCourseSubjectOne(form) {
     return request({
-      url: `/courseservice/course-subject-one/updateCourseSubjectOne`,
+      url: `/adminservice/courseservice/course-subject-one/updateCourseSubjectOne`,
       method: 'post',
       data: form
     })
@@ -45,7 +45,7 @@ export default {
    */
   deleteCourseSubjectOne(id) {
     return request({
-      url: `/courseservice/course-subject-one/delete/${id}`,
+      url: `/adminservice/courseservice/course-subject-one/delete/${id}`,
       method: 'delete'
     })
   },
@@ -58,7 +58,7 @@ export default {
    */
   getCourseSubjectTwoListPage(parentId, current, limit, serchObj) {
     return request({
-      url: `/courseservice/course-subject-two/pageCourseSubjectTwo/${parentId}/${current}/${limit}`,
+      url: `/adminservice/courseservice/course-subject-two/pageCourseSubjectTwo/${parentId}/${current}/${limit}`,
       method: 'post',
       data: serchObj
     })
@@ -70,7 +70,7 @@ export default {
    */
   addCourseSubjectOne(form) {
     return request({
-      url: `/courseservice/course-subject-one/addList`,
+      url: `/adminservice/courseservice/course-subject-one/addList`,
       method: 'post',
       data: form
     })
@@ -81,7 +81,7 @@ export default {
    */
   down() {
     return request({
-      url: `/courseservice/course-subject-one/download`,
+      url: `/adminservice/courseservice/course-subject-one/download`,
       method: 'get'
     })
   },
@@ -93,7 +93,7 @@ export default {
    */
   addCourseSubjectTwo(data) {
     return request({
-      url: `/courseservice/course-subject-two/addList`,
+      url: `/adminservice/courseservice/course-subject-two/addList`,
       method: 'post',
       data: data
     })
@@ -105,7 +105,7 @@ export default {
    */
   getTwoListById(id) {
     return request({
-      url: `/courseservice/course-subject-two/${id}`,
+      url: `/adminservice/courseservice/course-subject-two/${id}`,
       method: 'get'
     })
   },
@@ -116,7 +116,7 @@ export default {
    */
   updateCourseSubjectTwo(form) {
     return request({
-      url: `/courseservice/course-subject-two/updateList`,
+      url: `/adminservice/courseservice/course-subject-two/updateList`,
       method: 'post',
       data: form
     })
@@ -128,7 +128,7 @@ export default {
    */
   deleteCourseSubjectTwo(id) {
     return request({
-      url: `/courseservice/course-subject-two/delete/${id}`,
+      url: `/adminservice/courseservice/course-subject-two/delete/${id}`,
       method: 'delete'
     })
   },
@@ -138,7 +138,7 @@ export default {
    */
   downTwo(id) {
     return request({
-      url: `/courseservice/course-subject-two/download/${id}`,
+      url: `/adminservice/courseservice/course-subject-two/download/${id}`,
       method: 'get'
     })
   },
@@ -148,7 +148,7 @@ export default {
    */
   getAllListTree() {
     return request({
-      url: `/courseservice/course-subject-one/getAllSubject`,
+      url: `/adminservice/courseservice/course-subject-one/getAllSubject`,
       method: 'get'
     })
   }

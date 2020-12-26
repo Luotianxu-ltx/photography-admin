@@ -8,7 +8,7 @@ export default {
    */
   addVideo(video) {
     return request({
-      url: `/courseservice/course-video/addVideo`,
+      url: `/adminservice/courseservice/course-video/addVideo`,
       method: 'post',
       data: video
     })
@@ -20,7 +20,7 @@ export default {
    */
   updateChapter(video) {
     return request({
-      url: `/courseservice/course-video/update`,
+      url: `/adminservice/courseservice/course-video/update`,
       method: 'post',
       data: video
     })
@@ -32,7 +32,7 @@ export default {
    */
   deleteVideo(id) {
     return request({
-      url: `/courseservice/course-video/${id}`,
+      url: `/adminservice/courseservice/course-video/${id}`,
       method: 'delete'
     })
   },
@@ -43,7 +43,7 @@ export default {
    */
   deleteAlyvod(id) {
     return request({
-      url: `/vodservice/video/removeAlyVideo/${id}`,
+      url: `/adminservice/vodservice/video/removeAlyVideo/${id}`,
       method: 'delete'
     })
   }

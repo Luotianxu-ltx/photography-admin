@@ -8,7 +8,7 @@ export default {
    */
   getAllChapterVideo(courseId) {
     return request({
-      url: `/courseservice/course-chapter/getChapterVideo/${courseId}`,
+      url: `/adminservice/courseservice/course-chapter/getChapterVideo/${courseId}`,
       method: 'get'
     })
   },
@@ -19,7 +19,7 @@ export default {
    */
   addChapter(chapter) {
     return request({
-      url: `/courseservice/course-chapter/addChapter`,
+      url: `/adminservice/courseservice/course-chapter/addChapter`,
       method: 'post',
       data: chapter
     })
@@ -31,7 +31,7 @@ export default {
    */
   getChapter(chapterId) {
     return request({
-      url: `/courseservice/course-chapter/getChapterInfo/${chapterId}`,
+      url: `/adminservice/courseservice/course-chapter/getChapterInfo/${chapterId}`,
       method: 'get'
     })
   },
@@ -42,7 +42,7 @@ export default {
    */
   updateChapter(chapter) {
     return request({
-      url: `/courseservice/course-chapter/updateChapter`,
+      url: `/adminservice/courseservice/course-chapter/updateChapter`,
       method: 'post',
       data: chapter
     })
@@ -54,7 +54,7 @@ export default {
    */
   deleteChapter(chapterId) {
     return request({
-      url: `/courseservice/course-chapter/${chapterId}`,
+      url: `/adminservice/courseservice/course-chapter/${chapterId}`,
       method: 'delete'
     })
   }

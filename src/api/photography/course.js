@@ -7,7 +7,7 @@ export default {
    */
   addCourseInfo(courseInfo) {
     return request({
-      url: `/courseservice/course/addCourseInfo`,
+      url: `/adminservice/courseservice/course/addCourseInfo`,
       method: 'post',
       data: courseInfo
     })
@@ -19,7 +19,7 @@ export default {
    */
   getCourseInfo(id) {
     return request({
-      url: `/courseservice/course/getCourseInfo/${id}`,
+      url: `/adminservice/courseservice/course/getCourseInfo/${id}`,
       method: 'get'
     })
   },
@@ -30,7 +30,7 @@ export default {
    */
   updateCourseInfo(courseInfo) {
     return request({
-      url: `/courseservice/course/updateCourseInfo`,
+      url: `/adminservice/courseservice/course/updateCourseInfo`,
       method: 'post',
       data: courseInfo
     })
@@ -42,7 +42,7 @@ export default {
    */
   getPublishCourseInfo(id) {
     return request({
-      url: `/courseservice/course/getPublishInfo/${id}`,
+      url: `/adminservice/courseservice/course/getPublishInfo/${id}`,
       method: 'get'
     })
   },
@@ -54,7 +54,7 @@ export default {
    */
   publishCourse(id) {
     return request({
-      url: `/courseservice/course/publishCourse/${id}`,
+      url: `/adminservice/courseservice/course/publishCourse/${id}`,
       method: 'get'
     })
   },
@@ -65,7 +65,7 @@ export default {
    */
   getListCourse(current, limit, searchObj) {
     return request({
-      url: `/courseservice/course/pageCourseCondition/${current}/${limit}`,
+      url: `/adminservice/courseservice/course/pageCourseCondition/${current}/${limit}`,
       method: 'post',
       data: searchObj
     })
@@ -76,7 +76,7 @@ export default {
    */
   down() {
     return request({
-      url: `/courseservice/course/download`,
+      url: `/adminservice/courseservice/course/download`,
       method: 'get'
     })
   },
@@ -87,7 +87,7 @@ export default {
    */
   remove(courseId) {
     return request({
-      url: `/courseservice/course/${courseId}`,
+      url: `/adminservice/courseservice/course/${courseId}`,
       method: 'delete'
     })
   }

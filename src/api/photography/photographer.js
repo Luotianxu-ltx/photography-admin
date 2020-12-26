@@ -11,7 +11,7 @@ export default {
    */
   getPhotographerListPage(current, limit, searchObj) {
     return request({
-      url: `/photographerservice/photographer/pagePhotographerCondition/${current}/${limit}`,
+      url: `/adminservice/photographerservice/photographer/pagePhotographerCondition/${current}/${limit}`,
       method: 'post',
       data: searchObj
     })
@@ -24,7 +24,7 @@ export default {
    */
   deletePhotographerId(id) {
     return request({
-      url: `/photographerservice/photographer/${id}`,
+      url: `/adminservice/photographerservice/photographer/${id}`,
       method: 'delete'
     })
   },
@@ -36,7 +36,7 @@ export default {
    */
   addPhotographer(photographer) {
     return request({
-      url: `/photographerservice/photographer/addPhotographer`,
+      url: `/adminservice/photographerservice/photographer/addPhotographer`,
       method: 'post',
       data: photographer
     })
@@ -49,7 +49,7 @@ export default {
    */
   getPhotographerInfo(id) {
     return request({
-      url: `/photographerservice/photographer/getPhotographer/${id}`,
+      url: `/adminservice/photographerservice/photographer/getPhotographer/${id}`,
       method: 'get'
     })
   },
@@ -61,7 +61,7 @@ export default {
    */
   updatePhtotgrapher(photographer) {
     return request({
-      url: `/photographerservice/photographer/updatePhotographer`,
+      url: `/adminservice/photographerservice/photographer/updatePhotographer`,
       method: 'post',
       data: photographer
     })
@@ -72,13 +72,13 @@ export default {
    */
   down() {
     return request({
-      url: `/photographerservice/photographer/download`,
+      url: `/adminservice/photographerservice/photographer/download`,
       method: 'get'
     })
   },
   getAllList() {
     return request({
-      url: `/photographerservice/photographer/list`,
+      url: `/adminservice/photographerservice/photographer/list`,
       method: 'get'
     })
   }
