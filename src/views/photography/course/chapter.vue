@@ -43,7 +43,7 @@
     </div>
 
     <!-- 添加和修改章节表单 -->
-    <el-dialog :visible.sync="dialogChapterFormVisible" title="添加章节" @close="closeDialog">
+    <el-dialog :visible.sync="dialogChapterFormVisible" title="添加章节">
       <el-form :model="chapter" label-width="120px">
         <el-form-item label="章节标题">
           <el-input v-model="chapter.title" />
@@ -59,7 +59,7 @@
     </el-dialog>
 
     <!-- 添加和修改小节表单 -->
-    <el-dialog :visible.sync="dialogVideoFormVisible" title="添加课时" @close="closeDialog">
+    <el-dialog :visible.sync="dialogVideoFormVisible" title="添加课时">
       <el-form :model="video" label-width="120px">
         <el-form-item label="课时标题">
           <el-input v-model="video.title" />
@@ -122,6 +122,7 @@ export default {
         videoSourceId: '',
         videoOriginalName: '' // 上传视频的名称
       },
+      videoId:'',
       saveBtnDisabled: false, // 保存按钮是否禁用
       dialogChapterFormVisible: false, // 章节弹框
       dialogVideoFormVisible: false, // 小节弹框
@@ -141,7 +142,6 @@ export default {
   methods: {
     // 点击确定调用的方法
     handleVodRemove() {
-      // console.log(file)
       videoApi.deleteAlyvod(this.video.videoSourceId)
         .then(response => {
           this.$message({
@@ -162,7 +162,8 @@ export default {
     // 上传视频成功回调
     handleVodUploadSuccess(response, file, fileList) {
       // 上传文件id
-      this.video.videoSourceId = response.data.videoId
+      this.videoId = response.data.videoId
+      console.log(this.videoId)
       // 上传文件名称
       this.video.videoOriginalName = file.name
     },
@@ -170,7 +171,7 @@ export default {
     handleUploadExceed(files, fileList) {
       this.$message.warning('想要重新上传视频，请先删除已上传的视频')
     },
-    // =======================小节操作===================//
+    // ================================================================================
     // 删除小节
     deleteVideo(id) {
       this.$confirm('此操作将永久删除小节，是否继续？', '提示', {
@@ -188,16 +189,12 @@ export default {
           })
       })
     },
-    // 添加小节弹框
-    openVideo(chapterId) {
-      // 弹框
-      this.dialogVideoFormVisible = true
-      // 设置章节id
-      this.video.chapterId = chapterId
-    },
+    // 添加小节
     addVideo() {
       // 设置课程id
       this.video.courseId = this.courseId
+      this.video.videoSourceId = this.videoId
+      console.log(this.video.videoSourceId)
       videoApi.addVideo(this.video)
         .then(response => {
           // 关闭弹框
@@ -209,19 +206,25 @@ export default {
           })
           // 刷新页面
           this.getChapterVideo()
+          this.video = {}
+          // 文件列表清空
+          this.fileList = []
+          // 把video视频id和视频名称清空
+          this.video.videoSourceId = ''
+          this.video.videoOriginalName = ''
         })
     },
     saveOrUpdateVideo() {
       this.addVideo()
     },
-    // =======================章节操作===================//
-    closeDialog() {
-      this.chapter = {}
-      this.video = {}
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
+    // 添加小节弹框
+    openVideo(chapterId) {
+      // 弹框
+      this.dialogVideoFormVisible = true
+      // 设置章节id
+      this.video.chapterId = chapterId
     },
+    // ========================================================================= //
     // 删除章节
     deleteChapter(chapter) {
       this.$confirm('此操作将永久删除章节，是否继续？', '提示', {

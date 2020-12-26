@@ -61,7 +61,7 @@
       <el-table-column label="头像" width="100" align="center">
         <template slot-scope="scope">
           <el-popover placement="right" trigger="hover">
-            <img :src="scope.row.cover" style="height: 100px; width: 100px" alt="scope.row.name">
+            <img :src="scope.row.cover" style="height: 100px; width: 100px" alt="scope.row.title">
             <img
               slot="reference"
               :src="scope.row.cover"

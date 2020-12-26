@@ -177,9 +177,6 @@ export default {
     },
     closeDialog() {
       this.form = {}
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
     },
     // 修改课程二级分类
     updateById() {

@@ -43,7 +43,7 @@ export default {
    */
   deleteAlyvod(id) {
     return request({
-      url: `/adminservice/vodservice/video/removeAlyVideo/${id}`,
+      url: `/vodservice/video/removeAlyVideo/${id}`,
       method: 'delete'
     })
   }

@@ -189,9 +189,6 @@ export default {
     },
     closeDialog() {
       this.form = {}
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
     },
     // 下载excel
     download() {
