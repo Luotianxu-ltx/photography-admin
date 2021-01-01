@@ -174,6 +174,31 @@ export const constantRoutes = [
       }
     ]
   },
+  // 统计模块
+  {
+    path: '/sta',
+    component: Layout,
+    redirect: '/sta/create',
+    name: '统计分析',
+    meta: {
+      title: '统计分析',
+      icon: 'el-icon-s-custom'
+    },
+    children: [
+      {
+        path: 'create',
+        component: () => import('@/views/photography/sta/create'),
+        name: '生成数据',
+        meta: { title: '生成数据', icon: 'list' }
+      },
+      {
+        path: 'show',
+        component: () => import('@/views/photography/sta/show'),
+        name: '图表显示',
+        meta: { title: '图表显示', icon: 'list' }
+      }
+    ]
+  },
   {
     path: '/documentation',
     component: Layout,

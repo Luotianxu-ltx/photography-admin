@@ -122,7 +122,7 @@ export default {
         videoSourceId: '',
         videoOriginalName: '' // 上传视频的名称
       },
-      videoId:'',
+      videoId: '',
       saveBtnDisabled: false, // 保存按钮是否禁用
       dialogChapterFormVisible: false, // 章节弹框
       dialogVideoFormVisible: false, // 小节弹框
