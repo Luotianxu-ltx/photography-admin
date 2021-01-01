@@ -12,5 +12,12 @@ export default {
       url: `/statisticsservice/sta/registerCount/${day}`,
       method: 'post'
     })
+  },
+
+  getDataSta(searchObj) {
+    return request({
+      url: `/statisticsservice/sta/showData/${searchObj.type}/${searchObj.begin}/${searchObj.end}`,
+      method: 'get'
+    })
   }
 }
