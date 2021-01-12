@@ -200,6 +200,73 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/acl',
+    component: Layout,
+    redirect: '/acl/user/list',
+    name: '权限管理',
+    meta: { title: '权限管理', icon: 'chart' },
+    children: [
+      {
+        path: 'user/list',
+        name: '用户管理',
+        component: () => import('@/views/photography/acl/user/list'),
+        meta: { title: '用户管理' }
+      },
+      {
+        path: 'role/list',
+        name: '角色管理',
+        component: () => import('@/views/photography/acl/role/list'),
+        meta: { title: '角色管理' }
+      },
+      {
+        path: 'role/distribution/:id',
+        name: '角色权限',
+        component: () => import('@/views/photography/acl/role/roleForm'),
+        meta: { title: '角色权限' },
+        hidden: true
+      },
+      {
+        path: 'menu/list',
+        name: '菜单管理',
+        component: () => import('@/views/photography/acl/menu/list'),
+        meta: { title: '菜单管理' }
+      },
+      {
+        path: 'user/role/:id',
+        name: '用户角色',
+        component: () => import('@/views/photography/acl/user/roleForm'),
+        meta: { title: '用户角色' },
+        hidden: true
+      }
+
+    ]
+  },
+  // 统计模块
+  {
+    path: '/form',
+    component: Layout,
+    redirect: '/form/courseShow',
+    name: '数据大屏',
+    meta: {
+      title: '数据大屏',
+      icon: 'el-icon-s-custom'
+    },
+    children: [
+      {
+        path: 'form',
+        component: () => import('@/views/photography/form/form'),
+        name: '数据大屏',
+        meta: { title: '数据大屏', icon: 'list' }
+      },
+      {
+        path: 'courseShowPage',
+        component: () => import('@/views/photography/form/hot'),
+        name: '列表',
+        meta: { title: '列表', icon: 'list' }
+      }
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     children: [

@@ -19,3 +19,10 @@ export default function checkPermission(value) {
     return false
   }
 }
+
+// 用来控制按钮的显示
+export function hasBtnPermission(permission) {
+  const myBtns = store.getters.buttons
+  return myBtns.indexOf(permission) > -1
+}
+

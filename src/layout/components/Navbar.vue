@@ -29,7 +29,7 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">退出</span>
+            <span style="display:block;" @click="logout">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -66,9 +66,10 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    logout() {
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
     }
   }
 }
