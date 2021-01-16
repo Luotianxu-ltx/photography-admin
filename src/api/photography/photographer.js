@@ -76,6 +76,10 @@ export default {
       method: 'get'
     })
   },
+  /**
+   * 查询所有摄影师
+   * @returns {AxiosPromise}
+   */
   getAllList() {
     return request({
       url: `/adminservice/photographerservice/photographer/list`,
