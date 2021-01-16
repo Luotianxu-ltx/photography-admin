@@ -64,15 +64,29 @@
 
       <!-- 课程封面-->
       <el-form-item label="课程封面">
-
         <el-upload
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
           :action="VUE_APP_BASE_API+'/oss/fileoss'"
-          class="avatar-uploader"
+          list-type="picture-card"
+          :auto-upload="true"
+          :before-upload="beforeAvatarUpload"
+          :on-success="handleAvatarSuccess"
         >
-          <img :src="courseInfo.cover">
+          <i slot="default" class="el-icon-plus" />
+          <div slot="file" slot-scope="{file}">
+            <img
+              class="el-upload-list__item-thumbnail"
+              :src="courseInfo.cover"
+              alt=""
+            >
+            <span class="el-upload-list__item-actions">
+              <span
+                class="el-upload-list__item-preview"
+                @click="handlePictureCardPreview(file)"
+              >
+                <i class="el-icon-zoom-in" />
+              </span>
+            </span>
+          </div>
         </el-upload>
 
       </el-form-item>
@@ -85,6 +99,10 @@
         <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdate">保存并下一步</el-button>
       </el-form-item>
     </el-form>
+
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="this.courseInfo.cover" alt="">
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -102,16 +120,18 @@ export default {
         photographerId: '',
         lessonNum: 0,
         description: '',
-        cover: 'E:\\maven_java\\1.jpg',
+        cover: '',
         price: 0
       },
+      fileList: [],
       one: '',
       photographerList: [],
       subjectOneList: [], // 一级分类
       subjectTwoList: [], // 二级分类
       courseId: '',
       VUE_APP_BASE_API: process.env.VUE_APP_BASE_API, // 获取端口号
-      saveBtnDisabled: false // 保存按钮是否禁用
+      saveBtnDisabled: false, // 保存按钮是否禁用
+      dialogVisible: false
     }
   },
 
@@ -129,6 +149,10 @@ export default {
     }
   },
   methods: {
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = this.courseInfo.cover
+      this.dialogVisible = true
+    },
     // 根据课程id查询信息
     getInfo() {
       courseApi.getCourseInfo(this.courseId)
