@@ -80,9 +80,10 @@
             :before-remove="beforeVodRemove"
             :on-exceed="handleUploadExceed"
             :file-list="fileList"
-            :action="VUE_APP_BASE_API+'/vodservice/video/uploadAlyVideo'"
+            :action="VUE_APP_BASE_API+'/aliyun/video/uploadAlyVideo'"
             :limit="1"
-            class="upload-demo">
+            class="upload-demo"
+          >
             <el-button size="small" type="primary">上传视频</el-button>
             <el-tooltip placement="right-end">
               <div slot="content">最大支持1G，<br>
@@ -90,7 +91,7 @@
                 GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、<br>
                 MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、<br>
                 SWF、TS、VOB、WMV、WEBM 等视频格式上传</div>
-              <i class="el-icon-question"/>
+              <i class="el-icon-question" />
             </el-tooltip>
           </el-upload>
         </el-form-item>

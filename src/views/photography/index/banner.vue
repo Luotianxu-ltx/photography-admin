@@ -74,7 +74,7 @@
         <el-form-item label="图片">
 
           <el-upload
-            :action="VUE_APP_BASE_API+'/oss/fileoss/banner'"
+            :action="VUE_APP_BASE_API+'/aliyun/fileoss/banner'"
             list-type="picture-card"
             :auto-upload="true"
             :before-upload="beforeAvatarUpload"

@@ -35,7 +35,7 @@
           :key="imagecropperKey"
           :width="300"
           :height="300"
-          :url="VUE_APP_BASE_API+'/oss/fileoss/photographer'"
+          :url="VUE_APP_BASE_API+'/aliyun/fileoss/photographer'"
           field="file"
           @close="close"
           @crop-upload-success="cropSuccess"

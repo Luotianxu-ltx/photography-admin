@@ -65,7 +65,7 @@
       <!-- 课程封面-->
       <el-form-item label="课程封面">
         <el-upload
-          :action="VUE_APP_BASE_API+'/oss/fileoss/course'"
+          :action="VUE_APP_BASE_API+'/aliyun/fileoss/course'"
           list-type="picture-card"
           :auto-upload="true"
           :before-upload="beforeAvatarUpload"
