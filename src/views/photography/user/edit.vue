@@ -1,26 +1,38 @@
 <template>
   <div class="app-container">
-    <el-form label-width="120px" :rules="formRules" :model="photographer">
-      <el-form-item label="摄影师名称" prop="name">
-        <el-input v-model="photographer.name" />
+    <el-form label-width="120px" :rules="formRules" :model="form">
+      <el-form-item label="昵称" prop="nickname">
+        <el-input v-model="form.nickname" />
       </el-form-item>
-      <el-form-item label="摄影师头衔">
-        <el-select v-model="photographer.level" clearable placeholder="请选择">
-          <el-option :value="1" label="签约摄影师" />
-          <el-option :value="2" label="爱好者" />
+      <el-form-item label="手机号" prop="mobile">
+        <el-input v-model="form.mobile" />
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="form.password" />
+      </el-form-item>
+      <el-form-item label="性别">
+        <el-select v-model="form.sex" clearable placeholder="请选择">
+          <el-option :value="1" label="女" />
+          <el-option :value="2" label="男" />
         </el-select>
       </el-form-item>
-      <el-form-item label="摄影师资历" prop="career">
-        <el-input v-model="photographer.career" />
+      <el-form-item label="年龄">
+        <el-input v-model="form.age" />
       </el-form-item>
-      <el-form-item label="摄影师简介">
-        <el-input v-model="photographer.intro" :rows="10" type="textarea" />
+      <el-form-item label="是否禁用" width="100">
+        <el-switch
+          v-model="form.isDisabled"
+          :active-value="1"
+          :inactive-value="0"
+          active-color="#ff4949"
+          inactive-color="#13ce66"
+        />
       </el-form-item>
-      <!-- 摄影师头像 -->
-      <el-form-item label="摄影师头像">
+      <!-- 会员头像 -->
+      <el-form-item label="头像">
 
         <!-- 头衔缩略图 -->
-        <pan-thumb :image="photographer.avatar" />
+        <pan-thumb :image="form.avatar" />
         <!-- 文件上传按钮 -->
         <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">更换头像
         </el-button>
@@ -35,7 +47,7 @@
           :key="imagecropperKey"
           :width="300"
           :height="300"
-          :url="VUE_APP_BASE_API+'/oss/fileoss/photographer'"
+          :url="VUE_APP_BASE_API+'/oss/fileoss/user'"
           field="file"
           @close="close"
           @crop-upload-success="cropSuccess"
@@ -51,31 +63,34 @@
   </div>
 </template>
 <script>
-import photographerApi from '@/api/photography/photographer'
+import userApi from '@/api/photography/user'
 import ImageCropper from '@/components/ImageCropper'
 import PanThumb from '@/components/PanThumb'
 export default {
   components: { ImageCropper, PanThumb },
   data() {
     return {
-      photographer: {
-        name: '',
-        sort: 0,
-        level: 1,
-        career: '',
-        intro: '',
-        avatar: ''
+      form: {
+        nickname: '',
+        mobile: '',
+        password: '',
+        sex: '',
+        age: '',
+        isDisabled: 0
       },
       saveBtnDisabled: false, // 保存按钮是否禁用,
       imagecropperShow: false, // 上传弹框组件是否显示
       imagecropperKey: 0, // 上传组件key的值
       VUE_APP_BASE_API: process.env.VUE_APP_BASE_API, // 获取端口号
       formRules: {
-        name: [
-          { required: true, message: '请输入摄影师姓名', trigger: 'blur' }
+        nickname: [
+          { required: true, message: '请输入昵称', trigger: 'blur' }
         ],
-        career: [
-          { required: true, message: '请输入摄影师资历', trigger: 'blur' }
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
         ]
       }
     }
@@ -92,7 +107,7 @@ export default {
     // 上传成功的方法
     cropSuccess(data) {
       // 上传成功之后接口返回地址
-      this.photographer.avatar = data.url
+      this.form.avatar = data.url
       this.imagecropperShow = false
     },
     // 关闭上传弹框
@@ -110,32 +125,36 @@ export default {
     },
     // 根据摄影师id查询
     getInfo(id) {
-      photographerApi.getPhotographerInfo(id)
+      userApi.selectById(id)
         .then(response => {
-          this.photographer = response.data.photographer
+          this.form = response.data.list
         })
     },
     saveOrUpdate() {
       // 判断是修改还是添加
-      if (!this.photographer.id) {
+      if (!this.form.id) {
         // 添加
-        this.savePhotographer()
+        console.log(123)
+        this.saveUser()
       } else {
         // 修改
-        this.updatePhotographer()
+        console.log(456)
+        this.updateUser()
       }
     },
-    // 添加摄影师
-    savePhotographer() {
-      photographerApi.addPhotographer(this.photographer)
+    // 添加会员
+    saveUser() {
+      userApi.register(this.form)
         .then(response => { // 添加成功
-          // 提示信息
-          this.$message({
-            type: 'success',
-            message: '添加成功'
-          })
+          if (response.data.flag === true) {
+            // 提示信息
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            })
+          }
           // 回到列表页面
-          this.$router.push({ path: '/photographer/list' })
+          this.$router.push({ path: '/user/list' })
         }).catch((response) => {
           this.$message({
             type: 'error',
@@ -143,16 +162,18 @@ export default {
           })
         })
     },
-    // 修改摄影师
-    updatePhotographer() {
-      photographerApi.updatePhtotgrapher(this.photographer)
+    // 修改会员
+    updateUser() {
+      userApi.updateById(this.form)
         .then(response => { // 添加成功
-          // 提示信息
-          this.$message({
-            type: 'success',
-            message: '修改成功'
-          })
-          this.$router.push({ path: '/photographer/list' })
+          if (response.data.flag === true) {
+            // 提示信息
+            this.$message({
+              type: 'success',
+              message: '修改成功'
+            })
+          }
+          this.$router.push({ path: '/user/list' })
         }).catch((response) => {
           this.$message({
             type: 'error',

@@ -10,25 +10,37 @@
       <div style="margin-top: 20px">
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
-            <el-input v-model="courseQuery.title" placeholder="课程名称" />
+            <el-input v-model="searchObj.orderNo" placeholder="订单号" />
           </el-form-item>
 
           <el-form-item>
-            <el-select v-model="courseQuery.status" clearable placeholder="课程状态">
-              <el-option :value="1" label="已发布" />
-              <el-option :value="0" label="未发布" />
-            </el-select>
-          </el-form-item>
-
-          <el-form-item>
-            <el-select v-model="courseQuery.photographerId" placeholder="课程讲师">
+            <el-select v-model="searchObj.courseId" filterable placeholder="课程名称">
               <el-option
-                v-for="photographer in photographerList"
-                :key="photographer.id"
-                :label="photographer.name"
-                :value="photographer.id"
+                v-for="item in courseList"
+                :key="item.id"
+                :value="item.id"
+                :label="item.title"
               />
             </el-select>
+          </el-form-item>
+
+          <el-form-item label="添加时间">
+            <el-date-picker
+              v-model="searchObj.begin"
+              type="datetime"
+              placeholder="选择开始时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-date-picker
+              v-model="searchObj.end"
+              type="datetime"
+              placeholder="选择截止时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
           </el-form-item>
 
           <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
@@ -37,6 +49,7 @@
         </el-form>
       </div>
     </el-card>
+
     <!-- 表格 -->
     <el-table
       v-loading="listLoading"
@@ -58,44 +71,30 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="头像" width="100" align="center">
+      <el-table-column prop="orderNo" label="订单编号" width="200" />
+
+      <el-table-column prop="courseTitle" label="课程名称" />
+
+      <el-table-column prop="photographerName" label="摄影师名" />
+
+      <el-table-column prop="nickname" label="用户昵称" />
+
+      <el-table-column prop="totalFee" label="订单金额">
         <template slot-scope="scope">
-          <el-popover placement="right" trigger="hover">
-            <img :src="scope.row.cover" style="height: 100px; width: 100px" alt="scope.row.title">
-            <img
-              slot="reference"
-              :src="scope.row.cover"
-              :alt="scope.row.title"
-              style="height: 40px; width: 40px"
-            >
-          </el-popover>
+          {{ scope.row.totalFee }}元
         </template>
       </el-table-column>
 
-      <el-table-column prop="title" label="课程名称" width="200" />
-
-      <el-table-column label="课程状态" width="100">
+      <el-table-column prop="status" label="支付状态">
         <template slot-scope="scope">
-          {{ scope.row.status==='1'?'已发布':'未发布' }}
+          {{ scope.row.status===0?'未支付':'已支付' }}
         </template>
       </el-table-column>
 
-      <el-table-column prop="lessonNum" label="课时数" width="70" />
+      <el-table-column prop="gmtCreate" label="时间" width="160" />
 
-      <el-table-column prop="gmtCreate" label="添加时间" width="160" />
-
-      <el-table-column prop="gmtModified" label="修改时间" width="160" />
-
-      <el-table-column prop="viewCount" label="浏览量" width="70" />
-
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/course/info/'+scope.row.id">
-            <el-button type="primary" size="mini" icon="el-icon-edit">编辑基本信息</el-button>
-          </router-link>&nbsp;
-          <router-link :to="'/course/chapter/'+scope.row.id">
-            <el-button type="primary" size="mini" icon="el-icon-edit">编辑大纲</el-button>
-          </router-link>&nbsp;
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeDataById(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -113,8 +112,7 @@
 </template>
 
 <script>
-import courseApi from '@/api/photography/course'
-import photographerApi from '@/api/photography/photographer'
+import orderApi from '@/api/photography/order'
 
 export default {
   data() {
@@ -122,25 +120,49 @@ export default {
       page: 1,
       limit: 10,
       total: 0,
-      courseQuery: {},
+      searchObj: {},
       list: null,
       listLoading: true,
-      photographerList: []
+      courseList: {}
     }
-  }, created() {
+  },
+  created() {
     this.getList()
-    // 初始化所有摄影师
-    this.initPhotographerList()
+    this.getCourse()
   },
   methods: {
+    getCourse() {
+      orderApi.getCourseList()
+        .then(response => {
+          this.courseList = response.data.list
+        })
+    },
+    // 获取列表数据
+    getList(page = 1) {
+      this.page = page
+      orderApi.getPageList(this.page, this.limit, this.searchObj)
+        .then(response => {
+          this.list = response.data.list // 表格数据
+          this.total = response.data.total
+          this.listLoading = false
+        })
+    },
+    // 清空的方法
+    resetData() {
+      // 表单输入项数据清空
+      this.searchObj = {}
+      // 查询所有讲师数据
+      this.getList()
+    },
+    // 删除订单的方法
     removeDataById(id) {
-      this.$confirm('此操作将永久删除课程记录，是否继续？', '提示', {
+      this.$confirm('此操作将永久删除订单记录，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         // 调用删除方法
-        courseApi.remove(id)
+        orderApi.delete(id)
           .then(response => { // 删除成功
             // 提示信息
             this.$message({
@@ -157,32 +179,9 @@ export default {
           })
       })
     },
-    // 获取摄影师列表
-    getList(page = 1) {
-      this.page = page
-      courseApi.getListCourse(this.page, this.limit, this.courseQuery)
-        .then(response => {
-          this.list = response.data.list // 表格数据
-          this.total = response.data.total
-          this.listLoading = false
-        })
-    },
-    // 获取摄影师列表
-    initPhotographerList() {
-      photographerApi.getAllList().then(response => {
-        this.photographerList = response.data.list
-      })
-    },
-    // 清空的方法
-    resetData() {
-      // 表单输入项数据清空
-      this.courseQuery = {}
-      // 查询所有讲师数据
-      this.getList()
-    },
     // 下载excel
     down() {
-      courseApi.down()
+      orderApi.down()
         .then(response => {
           this.$message({
             type: 'success',

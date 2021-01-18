@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import userApi from '@/api/acl/user'
+import adminApi from '@/api/acl/admin'
 
 const validatePass = (rule, value, callback) => {
   if (value.length < 6) {
@@ -145,7 +145,7 @@ export default {
   },
   methods: {
     save() {
-      userApi.save(this.user)
+      adminApi.save(this.user)
         .then(response => {
           if (response.success) {
             this.$message({
@@ -159,7 +159,7 @@ export default {
     },
     update() {
       // teacher数据的获取
-      userApi.updateById(this.user)
+      adminApi.updateById(this.user)
         .then(response => {
           if (response.success) {
             this.$message({
@@ -172,7 +172,7 @@ export default {
         })
     },
     updateById(id) {
-      userApi.getById(id)
+      adminApi.getById(id)
         .then(response => {
           this.user = response.data.item
         })
@@ -197,7 +197,7 @@ export default {
       // 异步获取远程数据（ajax）
       this.page = page
 
-      userApi.getPageList(this.page, this.limit, this.searchObj).then(
+      adminApi.getPageList(this.page, this.limit, this.searchObj).then(
         response => {
           this.list = response.data.items
           this.total = response.data.total
@@ -222,7 +222,7 @@ export default {
         type: 'warning'
       }).then(() => { // promise
         // 点击确定，远程调用ajax
-        return userApi.removeById(id)
+        return adminApi.removeById(id)
       }).then((response) => {
         this.fetchData(this.page)
         if (response.success) {
@@ -264,7 +264,7 @@ export default {
           idList.push(item.id)
         })
         // 调用api
-        return userApi.removeRows(idList)
+        return adminApi.removeRows(idList)
       }).then((response) => {
         this.fetchData(this.page)
         if (response.success) {

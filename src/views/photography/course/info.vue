@@ -65,7 +65,7 @@
       <!-- 课程封面-->
       <el-form-item label="课程封面">
         <el-upload
-          :action="VUE_APP_BASE_API+'/oss/fileoss'"
+          :action="VUE_APP_BASE_API+'/oss/fileoss/course'"
           list-type="picture-card"
           :auto-upload="true"
           :before-upload="beforeAvatarUpload"
@@ -101,7 +101,7 @@
     </el-form>
 
     <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="this.courseInfo.cover" alt="">
+      <img width="100%" :src="courseInfo.cover" alt="">
     </el-dialog>
   </div>
 </template>

@@ -101,17 +101,17 @@ export const constantRoutes = [
         meta: { title: '摄影师列表', icon: 'list' }
       },
       {
-        path: 'save',
+        path: 'edit',
         component: () => import('@/views/photography/photographer/save'),
-        name: '添加摄影师',
-        meta: { title: '添加摄影师', icon: 'tree' }
+        name: '编辑',
+        meta: { title: '编辑', icon: 'tree' }
       },
       {
         path: 'edit/:id',
         component: () => import('@/views/photography/photographer/save'),
-        name: '修改摄影师',
+        name: '编辑',
         hidden: true,
-        meta: { title: '修改摄影师', icon: 'tree' }
+        meta: { title: '编辑', icon: 'tree' }
       }
     ]
   },
@@ -146,6 +146,12 @@ export const constantRoutes = [
         meta: { title: '课程列表', icon: 'list' }
       },
       {
+        path: 'comment',
+        name: '课程评论管理',
+        component: () => import('@/views/photography/course/courseComment'),
+        meta: { title: '课程评论管理', icon: 'list' }
+      },
+      {
         path: 'info',
         name: '发布课程',
         component: () => import('@/views/photography/course/info'),
@@ -171,6 +177,76 @@ export const constantRoutes = [
         component: () => import('@/views/photography/course/publish'),
         meta: { title: '发布课程', noCache: true },
         hidden: true
+      }
+    ]
+  },
+  // 前端首页模块
+  {
+    path: '/index',
+    component: Layout,
+    redirect: '/index/banner',
+    name: '首页管理',
+    meta: {
+      title: '首页管理',
+      icon: 'el-icon-s-custom'
+    },
+    children: [
+      {
+        path: 'banner',
+        component: () => import('@/views/photography/index/banner'),
+        name: '轮播图管理',
+        meta: { title: '轮播图管理', icon: 'list' }
+      }
+    ]
+  },
+  // 用户管理模块
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/list',
+    name: '会员管理',
+    meta: {
+      title: '会员管理',
+      icon: 'el-icon-s-custom'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/photography/user/list'),
+        name: '会员列表',
+        meta: { title: '会员列表', icon: 'list' }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/photography/user/edit'),
+        name: '编辑',
+        meta: { title: '编辑', icon: 'list' }
+      },
+      {
+        path: 'edit/:id',
+        component: () => import('@/views/photography/user/edit'),
+        name: '编辑',
+        hidden: true,
+        meta: { title: '编辑', icon: 'list' }
+      }
+    ]
+  },
+  // 订单管理模块
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/list',
+    name: '订单管理',
+    meta: {
+      title: '订单管理',
+      icon: 'el-icon-s-custom'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/photography/order/list'),
+        name: '订单列表',
+        meta: { title: '订单列表', icon: 'list' }
       }
     ]
   },

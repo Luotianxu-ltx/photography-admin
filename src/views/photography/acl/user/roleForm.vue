@@ -5,7 +5,7 @@
     <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
       <el-checkbox v-for="city in cities" :key="city.id" :label="city.id">{{ city.roleName }}</el-checkbox>
     </el-checkbox-group>
-    </br>
+    <br>
     <el-button :disabled="saveBtnDisabled" type="primary" @click="update">保存</el-button>
 
   </div>
@@ -13,7 +13,7 @@
 
 <script>
 
-import userApi from '@/api/acl/user'
+import userApi from '@/api/acl/admin'
 
 // const cityOptions = ['上海', '北京', '广州', '深圳'];
 
