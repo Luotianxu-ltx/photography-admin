@@ -1,54 +1,50 @@
 <template>
   <div class="app-container">
-    <!--查询表单-->
-    <!--    <el-card class="filter-container" shadow="never">-->
-    <!--      <div>-->
-    <!--        <i class="el-icon-search" />-->
-    <!--        <span>筛选搜索</span>-->
-    <!--      </div>-->
+    查询表单
+    <el-card class="filter-container" shadow="never">
+      <div>
+        <i class="el-icon-search" />
+        <span>筛选搜索</span>
+      </div>
 
-    <!--      <div style="margin-top: 20px">-->
-    <!--        <el-form :inline="true" class="demo-form-inline">-->
-    <!--          <el-form-item>-->
-    <!--            <el-input v-model="searchObj.orderNo" placeholder="订单号" />-->
-    <!--          </el-form-item>-->
+      <div style="margin-top: 20px">
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-select v-model="searchObj.courseId" filterable placeholder="课程名称">
+              <el-option
+                v-for="item in courseList"
+                :key="item.id"
+                :value="item.id"
+                :label="item.title"
+              />
+            </el-select>
+          </el-form-item>
 
-    <!--          <el-form-item>-->
-    <!--            <el-select v-model="searchObj.courseId" filterable placeholder="课程名称">-->
-    <!--              <el-option-->
-    <!--                v-for="item in this.courseList"-->
-    <!--                :key="item.id"-->
-    <!--                :value="item.id"-->
-    <!--                :label="item.title"-->
-    <!--              />-->
-    <!--            </el-select>-->
-    <!--          </el-form-item>-->
+          <el-form-item label="添加时间">
+            <el-date-picker
+              v-model="searchObj.begin"
+              type="datetime"
+              placeholder="选择开始时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-date-picker
+              v-model="searchObj.end"
+              type="datetime"
+              placeholder="选择截止时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="00:00:00"
+            />
+          </el-form-item>
 
-    <!--          <el-form-item label="添加时间">-->
-    <!--            <el-date-picker-->
-    <!--              v-model="searchObj.begin"-->
-    <!--              type="datetime"-->
-    <!--              placeholder="选择开始时间"-->
-    <!--              value-format="yyyy-MM-dd HH:mm:ss"-->
-    <!--              default-time="00:00:00"-->
-    <!--            />-->
-    <!--          </el-form-item>-->
-    <!--          <el-form-item>-->
-    <!--            <el-date-picker-->
-    <!--              v-model="searchObj.end"-->
-    <!--              type="datetime"-->
-    <!--              placeholder="选择截止时间"-->
-    <!--              value-format="yyyy-MM-dd HH:mm:ss"-->
-    <!--              default-time="00:00:00"-->
-    <!--            />-->
-    <!--          </el-form-item>-->
-
-    <!--          <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>-->
-    <!--          <el-button type="default" @click="resetData()">清空</el-button>-->
-    <!--          <el-button type="default" @click="down()">下载</el-button>-->
-    <!--        </el-form>-->
-    <!--      </div>-->
-    <!--    </el-card>-->
+          <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
+          <el-button type="default" @click="resetData()">清空</el-button>
+          <el-button type="default" @click="down()">下载</el-button>
+        </el-form>
+      </div>
+    </el-card>
 
     <!-- 表格 -->
     <el-table
@@ -71,25 +67,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="orderNo" label="订单编号" width="200" />
+      <el-table-column prop="content" label="评论内容" />
 
-      <el-table-column prop="courseTitle" label="课程名称" />
-
-      <el-table-column prop="photographerName" label="摄影师名" />
-
-      <el-table-column prop="nickname" label="用户昵称" />
-
-      <el-table-column prop="totalFee" label="订单金额">
-        <template slot-scope="scope">
-          {{ scope.row.totalFee }}元
-        </template>
-      </el-table-column>
-
-      <el-table-column prop="status" label="支付状态">
-        <template slot-scope="scope">
-          {{ scope.row.status===0?'未支付':'已支付' }}
-        </template>
-      </el-table-column>
+      <el-table-column prop="nickname" label="用户昵称" width="200" />
 
       <el-table-column prop="gmtCreate" label="时间" width="160" />
 
