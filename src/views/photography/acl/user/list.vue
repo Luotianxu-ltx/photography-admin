@@ -38,7 +38,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="username" label="用户名" width="150" />
-      <el-table-column prop="nickName" label="用户昵称" />
+      <el-table-column prop="introduction" label="用户简介" />
       <el-table-column prop="gmtCreate" label="创建时间" width="180" />
       <el-table-column label="操作" width="280" align="center">
         <template slot-scope="scope">
@@ -68,8 +68,8 @@
         <el-form-item label="用户名" prop="username">
           <el-input v-model="user.username" />
         </el-form-item>
-        <el-form-item label="用户昵称">
-          <el-input v-model="user.nickName" />
+        <el-form-item label="用户简介">
+          <el-input v-model="user.introduction" />
         </el-form-item>
 
         <el-form-item v-if="!user.id" label="用户密码" prop="password">
