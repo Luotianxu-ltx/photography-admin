@@ -1,5 +1,10 @@
 import request from '@/utils/request'
 
+/**
+ * 登录
+ * @param data
+ * @returns {AxiosPromise}
+ */
 export function login(data) {
   return request({
     url: '/aclservice/acl-user/login',
@@ -10,7 +15,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/adminservice/photographerservice/user/info',
+    url: '/aclservice/acl-user/getAdminInfo',
     method: 'get',
     params: { token }
   })
