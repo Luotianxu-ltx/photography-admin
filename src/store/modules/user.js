@@ -1,5 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login, getInfo } from '@/api/user'
+import { getToken, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -51,7 +51,7 @@ const actions = {
         const { data } = response
 
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('请重新登录')
         }
 
         const { roles, name, avatar } = data
@@ -65,43 +65,9 @@ const actions = {
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         resolve(data)
-        console.log(data)
-        console.log(name)
-        console.log(avatar)
       }).catch(error => {
         reject(error)
       })
-    })
-  },
-
-  // user logout
-  logout({ commit, state, dispatch }) {
-    console.log(123)
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
-
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
-
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      commit('SET_TOKEN', '')
-      commit('SET_ROLES', [])
-      removeToken()
-      resolve()
     })
   },
 
