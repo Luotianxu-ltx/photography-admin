@@ -7,15 +7,15 @@
     <div class="right-menu">
       <template v-if="device!=='mobile'">
 
-        <error-log class="errLog-container right-menu-item hover-effect" />
-
         <el-tooltip content="全屏" effect="dark" placement="bottom">
           <screenfull id="screenfull" class="right-menu-item hover-effect" />
         </el-tooltip>
 
-        <el-tooltip content="文字大小" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
+        <!--        <el-tooltip content="全屏" effect="dark" placement="bottom">-->
+        <!--          <div class="avatar-wrapper">-->
+        <!--            123-->
+        <!--          </div>-->
+        <!--        </el-tooltip>-->
 
       </template>
 
@@ -38,18 +38,14 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
-import SizeSelect from '@/components/SizeSelect'
-// import { getToken, removeToken } from '@/utils/auth'
+import { removeToken } from '@/utils/auth'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    ErrorLog,
-    Screenfull,
-    SizeSelect
+    Screenfull
   },
   computed: {
     ...mapGetters([
@@ -63,12 +59,8 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
-        // removeToken()
-        window.sessionStorage.clear()
-        location.reload() // 为了重新实例化vue-router对象 避免bug
-        this.$router.push({ path: '/login' })
-      })
+      removeToken()
+      this.$router.push({ path: '/login' })
     }
   }
 }

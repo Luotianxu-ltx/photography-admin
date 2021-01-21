@@ -4,21 +4,6 @@
       <h3 class="drawer-title">界面设置</h3>
 
       <div class="drawer-item">
-        <span>界面颜色</span>
-        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
-      </div>
-
-      <div class="drawer-item">
-        <span>顶部导航</span>
-        <el-switch v-model="tagsView" class="drawer-switch" />
-      </div>
-
-      <div class="drawer-item">
-        <span>适应高度</span>
-        <el-switch v-model="fixedHeader" class="drawer-switch" />
-      </div>
-
-      <div class="drawer-item">
         <span>显示logo</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>
@@ -28,36 +13,11 @@
 </template>
 
 <script>
-import ThemePicker from '@/components/ThemePicker'
-
 export default {
-  components: { ThemePicker },
   data() {
     return {}
   },
   computed: {
-    fixedHeader: {
-      get() {
-        return this.$store.state.settings.fixedHeader
-      },
-      set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'fixedHeader',
-          value: val
-        })
-      }
-    },
-    tagsView: {
-      get() {
-        return this.$store.state.settings.tagsView
-      },
-      set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'tagsView',
-          value: val
-        })
-      }
-    },
     sidebarLogo: {
       get() {
         return this.$store.state.settings.sidebarLogo
@@ -71,12 +31,6 @@ export default {
     }
   },
   methods: {
-    themeChange(val) {
-      this.$store.dispatch('settings/changeSetting', {
-        key: 'theme',
-        value: val
-      })
-    }
   }
 }
 </script>

@@ -13,6 +13,11 @@ export function login(data) {
   })
 }
 
+/**
+ * 根据token获取管理员信息
+ * @param token
+ * @returns {AxiosPromise}
+ */
 export function getInfo(token) {
   return request({
     url: '/aclservice/acl-user/getAdminInfo',
