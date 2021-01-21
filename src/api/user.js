@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/adminservice/photographerservice/user/login',
+    url: '/aclservice/acl-user/login',
     method: 'post',
     data
   })

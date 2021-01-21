@@ -17,51 +17,53 @@ router.beforeEach(async(to, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
 
-  // determine whether the user has logged in
+  // 从cookie中取得token
   const hasToken = getToken()
 
+  // 如果有token，也就是在登录的情况下
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
-      // determine whether the user has obtained his permission roles through getInfo
+      // 从store中取得用户的roles
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      // 如果有权限
       if (hasRoles) {
         next()
       } else {
+        // 如果没有权限
         try {
-          // get user info
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
+          // 获取用户信息
           const { roles } = await store.dispatch('user/getInfo')
 
-          // generate accessible routes map based on roles
+          // 生成路由
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
-          // dynamically add accessible routes
+          // 将可访问路由添加到路由上
           router.addRoutes(accessRoutes)
 
-          // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
+          // 进入路由
           next({ ...to, replace: true })
         } catch (error) {
-          // remove token and go to login page to re-login
+          // 清空路由
           await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
+          Message.error(error || '系统错误')
+          // 跳转到login页面
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
       }
     }
   } else {
-    /* has no token*/
+    // 没有token，也就是没有登录的情况下
 
     if (whiteList.indexOf(to.path) !== -1) {
-      // in the free login whitelist, go directly
+      // 判断是否是白名单
       next()
     } else {
-      // other pages that do not have permission to access are redirected to the login page.
+      // 跳转到login页面
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }

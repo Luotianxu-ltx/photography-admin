@@ -6,9 +6,6 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <el-tooltip content="搜索" effect="dark" placement="bottom">
-          <search id="header-search" class="right-menu-item" />
-        </el-tooltip>
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
@@ -44,7 +41,7 @@ import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
-import Search from '@/components/HeaderSearch'
+// import { getToken, removeToken } from '@/utils/auth'
 
 export default {
   components: {
@@ -52,8 +49,7 @@ export default {
     Hamburger,
     ErrorLog,
     Screenfull,
-    SizeSelect,
-    Search
+    SizeSelect
   },
   computed: {
     ...mapGetters([
@@ -68,7 +64,10 @@ export default {
     },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
+        // removeToken()
+        window.sessionStorage.clear()
         location.reload() // 为了重新实例化vue-router对象 避免bug
+        this.$router.push({ path: '/login' })
       })
     }
   }
