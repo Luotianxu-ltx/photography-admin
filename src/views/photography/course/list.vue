@@ -33,6 +33,7 @@
 
           <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
           <el-button type="default" @click="resetData()">清空</el-button>
+          <el-button type="danger" @click="removeRows()">批量删除</el-button>
           <el-button type="default" @click="down()">下载</el-button>
         </el-form>
       </div>
@@ -46,8 +47,10 @@
       fit
       highlight-current-row
       style="margin-top: 20px"
+      @selection-change="handleSelectionChange"
     >
 
+      <el-table-column type="selection" width="55" />
       <el-table-column
         label="序号"
         width="70"
@@ -91,7 +94,7 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/course/info/'+scope.row.id">
-            <el-button type="primary" size="mini" icon="el-icon-edit">编辑基本信息</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-edit">编辑信息</el-button>
           </router-link>&nbsp;
           <router-link :to="'/course/chapter/'+scope.row.id">
             <el-button type="primary" size="mini" icon="el-icon-edit">编辑大纲</el-button>
@@ -125,7 +128,8 @@ export default {
       courseQuery: {},
       list: null,
       listLoading: true,
-      photographerList: []
+      photographerList: [],
+      multipleSelection: [] // 批量选择中选择的记录列表
     }
   }, created() {
     this.getList()
@@ -133,6 +137,47 @@ export default {
     this.initPhotographerList()
   },
   methods: {
+    // 批量删除
+    removeRows() {
+      if (this.multipleSelection.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择要删除的记录!'
+        })
+        return
+      }
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // promise
+        // 点击确定，远程调用ajax
+        // 遍历selection，将id取出放入id列表
+        var idList = []
+        this.multipleSelection.forEach(item => {
+          idList.push(item.id)
+        })
+        // 调用api
+        return courseApi.batchRemove(idList)
+      }).then((response) => {
+        this.getList()
+        if (response.success) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 当表格复选框选项发生变化的时候触发
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection
+    },
     removeDataById(id) {
       this.$confirm('此操作将永久删除课程记录，是否继续？', '提示', {
         confirmButtonText: '确定',

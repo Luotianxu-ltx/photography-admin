@@ -90,5 +90,12 @@ export default {
       url: `/adminservice/courseservice/course/${courseId}`,
       method: 'delete'
     })
+  },
+  batchRemove(idList) {
+    return request({
+      url: '/adminservice/courseservice/course/batchRemove',
+      method: 'delete',
+      data: idList
+    })
   }
 }
