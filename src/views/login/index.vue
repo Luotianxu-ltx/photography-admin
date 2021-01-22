@@ -13,6 +13,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
+          v-focus
           placeholder="管理员姓名"
           name="username"
           type="text"

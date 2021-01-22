@@ -16,6 +16,7 @@ import router from './router'
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
+import './components/common/common' // 自定义全局组件
 
 import * as filters from './filters' // global filters
 

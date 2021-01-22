@@ -37,6 +37,19 @@
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
       </el-table-column>
+      <el-table-column label="头像" width="100" align="center">
+        <template slot-scope="scope">
+          <el-popover placement="right" trigger="hover">
+            <img :src="scope.row.avatar" style="height: 100px; width: 100px" alt="scope.row.name">
+            <img
+              slot="reference"
+              :src="scope.row.avatar"
+              :alt="scope.row.name"
+              style="height: 40px; width: 40px"
+            >
+          </el-popover>
+        </template>
+      </el-table-column>
       <el-table-column prop="username" label="用户名" width="150" />
       <el-table-column prop="introduction" label="用户简介" />
       <el-table-column prop="gmtCreate" label="创建时间" width="180" />
@@ -76,6 +89,30 @@
           <el-input v-model="user.password" />
         </el-form-item>
 
+        <el-form-item label="管理员头像">
+          <!-- 头衔缩略图 -->
+          <pan-thumb :image="user.avatar" />
+          <!-- 文件上传按钮 -->
+          <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">更换头像
+          </el-button>
+          <!--
+          v-show：是否显示上传组件
+          :key：类似于id，如果一个页面多个图片上传控件，可以做区分
+          :url：后台上传的url地址
+          @close：关闭上传组件
+          @crop-upload-success：上传成功后的回调 -->
+          <image-cropper
+            v-show="imagecropperShow"
+            :key="imagecropperKey"
+            :width="300"
+            :height="300"
+            :url="VUE_APP_BASE_API+'/aliyun/fileoss/admin'"
+            field="file"
+            @close="close"
+            @crop-upload-success="cropSuccess"
+          />
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="save">保存</el-button>
         </el-form-item>
@@ -87,13 +124,35 @@
         <el-form-item label="用户名" prop="username">
           <el-input v-model="user.username" />
         </el-form-item>
-        <el-form-item label="用户昵称">
-          <el-input v-model="user.nickName" />
+        <el-form-item label="用户简介">
+          <el-input v-model="user.introduction" />
         </el-form-item>
         <el-form-item label="用户密码" prop="password">
           <el-input v-model="user.password" />
         </el-form-item>
-
+        <el-form-item label="管理员头像">
+          <!-- 头衔缩略图 -->
+          <pan-thumb :image="user.avatar" />
+          <!-- 文件上传按钮 -->
+          <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">更换头像
+          </el-button>
+          <!--
+          v-show：是否显示上传组件
+          :key：类似于id，如果一个页面多个图片上传控件，可以做区分
+          :url：后台上传的url地址
+          @close：关闭上传组件
+          @crop-upload-success：上传成功后的回调 -->
+          <image-cropper
+            v-show="imagecropperShow"
+            :key="imagecropperKey"
+            :width="300"
+            :height="300"
+            :url="VUE_APP_BASE_API+'/aliyun/fileoss/admin'"
+            field="file"
+            @close="close"
+            @crop-upload-success="cropSuccess"
+          />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="update">保存</el-button>
         </el-form-item>
@@ -104,6 +163,8 @@
 
 <script>
 import adminApi from '@/api/acl/admin'
+import ImageCropper from '@/components/ImageCropper'
+import PanThumb from '@/components/PanThumb'
 
 const validatePass = (rule, value, callback) => {
   if (value.length < 6) {
@@ -114,6 +175,8 @@ const validatePass = (rule, value, callback) => {
 }
 
 export default {
+  components: { ImageCropper, PanThumb },
+
   data() {
     return {
       listLoading: true, // 数据是否正在加载
@@ -129,6 +192,9 @@ export default {
       nickName: '',
       password: '',
       user: {},
+      imagecropperKey: 0, // 上传组件key的值
+      imagecropperShow: false, // 上传弹框组件是否显示
+      VUE_APP_BASE_API: process.env.VUE_APP_BASE_API, // 获取端口号
       validateRules: {
         username: [
           { required: true, trigger: 'blur', message: '用户名必须输入' }
@@ -144,6 +210,18 @@ export default {
     this.fetchData()
   },
   methods: {
+    // 上传成功的方法
+    cropSuccess(data) {
+      // 上传成功之后接口返回地址
+      this.user.avatar = data.url
+      this.imagecropperShow = false
+    },
+    // 关闭上传弹框
+    close() {
+      this.imagecropperShow = false
+      // 上传组件初始化
+      this.imagecropperKey = this.imagecropperKey + 1
+    },
     save() {
       adminApi.save(this.user)
         .then(response => {
@@ -209,7 +287,6 @@ export default {
     },
     // 重置查询表单
     resetData() {
-      console.log('重置查询表单')
       this.searchObj = {}
       this.fetchData()
     },
