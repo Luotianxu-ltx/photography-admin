@@ -151,5 +151,29 @@ export default {
       url: `/adminservice/courseservice/course-subject-one/getAllSubject`,
       method: 'get'
     })
+  },
+  /**
+   * 批量删除二级分类
+   * @param idList
+   * @returns {AxiosPromise}
+   */
+  batchRemoveTwo(idList) {
+    return request({
+      url: '/adminservice/courseservice/course-subject-two/batchRemove',
+      method: 'delete',
+      data: idList
+    })
+  },
+  /**
+   * 批量删除
+   * @param idList
+   * @returns {AxiosPromise}
+   */
+  batchRemoveOne(idList) {
+    return request({
+      url: '/adminservice/courseservice/course-subject-one/batchRemove',
+      method: 'delete',
+      data: idList
+    })
   }
 }

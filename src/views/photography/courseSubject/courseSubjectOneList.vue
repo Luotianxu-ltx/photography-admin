@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-card class="filter-container" shadow="never">
       <div>
-        <i class="el-icon-search"></i>
+        <i class="el-icon-search" />
         <span>筛选搜索</span>
       </div>
 
@@ -16,27 +16,9 @@
             <el-input v-model="searchObj.name" placeholder="一级分类名" />
           </el-form-item>
 
-          <el-form-item label="添加时间">
-            <el-date-picker
-              v-model="searchObj.begin"
-              type="datetime"
-              placeholder="选择开始时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              v-model="searchObj.end"
-              type="datetime"
-              placeholder="选择截止时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
-          </el-form-item>
-
           <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
           <el-button type="default" @click="resetData()">清空</el-button>
+          <el-button type="danger" @click="removeRows()">批量删除</el-button>
           <el-button type="default" @click="download()">下载</el-button>
           <el-button type="default" @click="allSubject()">全部分类</el-button>
 
@@ -53,8 +35,10 @@
       fit
       highlight-current-row
       style="margin-top: 20px"
+      @selection-change="handleSelectionChange"
     >
 
+      <el-table-column type="selection" width="55" />
       <el-table-column
         label="序号"
         width="70"
@@ -97,9 +81,9 @@
     />
     <!--修改弹出框-->
     <el-dialog title="修改课程一级目录" :visible.sync="dialogFormVisible" @close="closeDialog">
-      <el-form :rules="rules" ref="form" :model="form">
+      <el-form ref="form" :rules="rules" :model="form">
         <el-form-item label="课程一级目录名称" prop="title">
-          <el-input v-model="form.title"/>
+          <el-input v-model="form.title" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -109,9 +93,9 @@
     </el-dialog>
     <!--新增弹出框-->
     <el-dialog title="修改课程一级目录" :visible.sync="dialogFormVisible1" @close="closeDialog">
-      <el-form :rules="rules" ref="form" :model="form">
+      <el-form ref="form" :rules="rules" :model="form">
         <el-form-item label="课程一级目录名称" prop="title">
-          <el-input v-model="form.title"/>
+          <el-input v-model="form.title" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -153,6 +137,7 @@ export default {
       dialogFormVisible2: false,
       filterText: '', // 搜索
       data2: [], // 返回所有分类的数据
+      multipleSelection: [], // 批量选择中选择的记录列表
       defaultProps: {
         children: 'children',
         label: 'title'
@@ -174,6 +159,47 @@ export default {
     this.getAllSubjectList()
   },
   methods: {
+    // 批量删除
+    removeRows() {
+      if (this.multipleSelection.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择要删除的记录!'
+        })
+        return
+      }
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // promise
+        // 点击确定，远程调用ajax
+        // 遍历selection，将id取出放入id列表
+        var idList = []
+        this.multipleSelection.forEach(item => {
+          idList.push(item.id)
+        })
+        // 调用api
+        return courseApi.batchRemoveOne(idList)
+      }).then((response) => {
+        this.getList()
+        if (response.success) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 当表格复选框选项发生变化的时候触发
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection
+    },
     allSubject() {
       this.dialogFormVisible2 = true
     },
