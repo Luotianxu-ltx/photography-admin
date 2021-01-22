@@ -85,5 +85,13 @@ export default {
       url: `/adminservice/photographerservice/photographer/list`,
       method: 'get'
     })
+  },
+
+  deleteAll(idList) {
+    return request({
+      url: '/adminservice/photographerservice/photographer/batchRemove',
+      method: 'delete',
+      data: idList
+    })
   }
 }
