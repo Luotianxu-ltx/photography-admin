@@ -38,6 +38,19 @@ export default {
       url: `/adminservice/course-comment/delete/${id}`,
       method: 'delete'
     })
+  },
+
+  /**
+   * 批量删除
+   * @param idList
+   * @returns {AxiosPromise}
+   */
+  batchRemove(idList) {
+    return request({
+      url: '/adminservice/course-comment/batchRemove',
+      method: 'delete',
+      data: idList
+    })
   }
 
 }
