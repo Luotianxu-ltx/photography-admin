@@ -77,5 +77,27 @@ export default {
       url: `h5service/user/select/${id}`,
       method: 'get'
     })
+  },
+  /**
+   * 批量删除
+   * @param idList
+   * @returns {AxiosPromise}
+   */
+  batchRemove(idList) {
+    return request({
+      url: '/h5service/user/batchRemove',
+      method: 'delete',
+      data: idList
+    })
+  },
+  /**
+   * 下载
+   * @returns {AxiosPromise}
+   */
+  down() {
+    return request({
+      url: '/h5service/user/download',
+      method: 'get'
+    })
   }
 }

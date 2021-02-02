@@ -20,28 +20,28 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="添加时间">
-            <el-date-picker
-              v-model="searchObj.begin"
-              type="datetime"
-              placeholder="选择开始时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              v-model="searchObj.end"
-              type="datetime"
-              placeholder="选择截止时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
-          </el-form-item>
-
+          <!--          <el-form-item label="添加时间">-->
+          <!--            <el-date-picker-->
+          <!--              v-model="searchObj.begin"-->
+          <!--              type="datetime"-->
+          <!--              placeholder="选择开始时间"-->
+          <!--              value-format="yyyy-MM-dd HH:mm:ss"-->
+          <!--              default-time="00:00:00"-->
+          <!--            />-->
+          <!--          </el-form-item>-->
+          <!--          <el-form-item>-->
+          <!--            <el-date-picker-->
+          <!--              v-model="searchObj.end"-->
+          <!--              type="datetime"-->
+          <!--              placeholder="选择截止时间"-->
+          <!--              value-format="yyyy-MM-dd HH:mm:ss"-->
+          <!--              default-time="00:00:00"-->
+          <!--            />-->
+          <!--          </el-form-item>-->
           <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
           <el-button type="default" @click="resetData()">清空</el-button>
-          <!--          <el-button type="default" @click="down()">下载</el-button>-->
+          <el-button type="danger" @click="removeRows()">批量删除</el-button>
+          <el-button type="default" @click="down()">下载</el-button>
         </el-form>
       </div>
     </el-card>
@@ -55,8 +55,10 @@
       fit
       highlight-current-row
       style="margin-top: 20px"
+      @selection-change="handleSelectionChange"
     >
 
+      <el-table-column type="selection" width="55" />
       <el-table-column
         label="序号"
         width="70"
@@ -140,12 +142,69 @@ export default {
       total: 0,
       searchObj: {},
       list: null,
-      listLoading: true
+      listLoading: true,
+      multipleSelection: [] // 批量选择中选择的记录列表
     }
   }, created() {
     this.getList()
   },
   methods: {
+    // 下载excel
+    down() {
+      userApi.down()
+        .then(response => {
+          this.$message({
+            type: 'success',
+            message: '下载成功！'
+          })
+        }).catch((response) => {
+          this.$message({
+            type: 'error',
+            message: '下载失败'
+          })
+        })
+    },
+    // 批量删除
+    removeRows() {
+      if (this.multipleSelection.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择要删除的记录!'
+        })
+        return
+      }
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // promise
+        // 点击确定，远程调用ajax
+        // 遍历selection，将id取出放入id列表
+        var idList = []
+        this.multipleSelection.forEach(item => {
+          idList.push(item.id)
+        })
+        // 调用api
+        return userApi.batchRemove(idList)
+      }).then((response) => {
+        this.getList()
+        if (response.success) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 当表格复选框选项发生变化的时候触发
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection
+    },
     change(id) {
       console.log(id)
       userApi.isDisabled(id)
@@ -203,21 +262,6 @@ export default {
           })
       })
     }
-    // 下载excel
-    // down() {
-    //   photographerApi.down()
-    //     .then(response => {
-    //       this.$message({
-    //         type: 'success',
-    //         message: '下载成功！'
-    //       })
-    //     }).catch((response) => {
-    //       this.$message({
-    //         type: 'error',
-    //         message: '下载失败'
-    //       })
-    //     })
-    // }
   }
 
 }

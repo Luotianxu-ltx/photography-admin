@@ -62,5 +62,17 @@ export default {
       method: 'post',
       data: form
     })
+  },
+  /**
+   * 批量删除
+   * @param idList
+   * @returns {AxiosPromise}
+   */
+  batchRemove(idList) {
+    return request({
+      url: '/h5service/batchRemove',
+      method: 'delete',
+      data: idList
+    })
   }
 }

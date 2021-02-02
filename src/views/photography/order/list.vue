@@ -24,27 +24,28 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="添加时间">
-            <el-date-picker
-              v-model="searchObj.begin"
-              type="datetime"
-              placeholder="选择开始时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              v-model="searchObj.end"
-              type="datetime"
-              placeholder="选择截止时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
-          </el-form-item>
+          <!--          <el-form-item label="添加时间">-->
+          <!--            <el-date-picker-->
+          <!--              v-model="searchObj.begin"-->
+          <!--              type="datetime"-->
+          <!--              placeholder="选择开始时间"-->
+          <!--              value-format="yyyy-MM-dd HH:mm:ss"-->
+          <!--              default-time="00:00:00"-->
+          <!--            />-->
+          <!--          </el-form-item>-->
+          <!--          <el-form-item>-->
+          <!--            <el-date-picker-->
+          <!--              v-model="searchObj.end"-->
+          <!--              type="datetime"-->
+          <!--              placeholder="选择截止时间"-->
+          <!--              value-format="yyyy-MM-dd HH:mm:ss"-->
+          <!--              default-time="00:00:00"-->
+          <!--            />-->
+          <!--          </el-form-item>-->
 
           <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
           <el-button type="default" @click="resetData()">清空</el-button>
+          <el-button type="danger" @click="removeRows()">批量删除</el-button>
           <el-button type="default" @click="down()">下载</el-button>
         </el-form>
       </div>
@@ -59,8 +60,10 @@
       fit
       highlight-current-row
       style="margin-top: 20px"
+      @selection-change="handleSelectionChange"
     >
 
+      <el-table-column type="selection" width="55" />
       <el-table-column
         label="序号"
         width="70"
@@ -123,7 +126,8 @@ export default {
       searchObj: {},
       list: null,
       listLoading: true,
-      courseList: {}
+      courseList: {},
+      multipleSelection: [] // 批量选择中选择的记录列表
     }
   },
   created() {

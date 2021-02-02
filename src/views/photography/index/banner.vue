@@ -6,6 +6,7 @@
       <div style="margin-top: 20px">
         <el-form :inline="true" class="demo-form-inline">
           <el-button type="primary" @click="add()">新增</el-button>
+          <el-button type="danger" @click="removeRows()">批量删除</el-button>
         </el-form>
       </div>
     </el-card>
@@ -18,8 +19,9 @@
       fit
       highlight-current-row
       style="margin-top: 20px"
+      @selection-change="handleSelectionChange"
     >
-
+      <el-table-column type="selection" width="55" />
       <el-table-column label="序号" width="70" align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
@@ -137,6 +139,7 @@ export default {
       dialogFormVisible: false,
       dialogVisible1: false,
       isUpdate: false,
+      multipleSelection: [], // 批量选择中选择的记录列表
       VUE_APP_BASE_API: process.env.VUE_APP_BASE_API, // 获取端口号
       rules: {
         title: [
@@ -152,6 +155,47 @@ export default {
     this.getList()
   },
   methods: {
+    // 批量删除
+    removeRows() {
+      if (this.multipleSelection.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择要删除的记录!'
+        })
+        return
+      }
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // promise
+        // 点击确定，远程调用ajax
+        // 遍历selection，将id取出放入id列表
+        var idList = []
+        this.multipleSelection.forEach(item => {
+          idList.push(item.id)
+        })
+        // 调用api
+        return bannerApi.batchRemove(idList)
+      }).then((response) => {
+        this.getList()
+        if (response.success) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 当表格复选框选项发生变化的时候触发
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection
+    },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = this.form.imageUrl
       this.dialogVisible1 = true
