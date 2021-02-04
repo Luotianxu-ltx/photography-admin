@@ -164,6 +164,25 @@ export const constantRoutes = [
       }
     ]
   },
+  // 文章管理
+  {
+    path: '/article',
+    component: Layout,
+    redirect: '/article/list',
+    name: '文章管理',
+    meta: {
+      title: '文章管理',
+      icon: 'el-icon-s-custom'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/photography/article/list'),
+        name: '文章管理',
+        meta: { title: '文章', icon: 'list' }
+      }
+    ]
+  },
   // 前端首页模块
   {
     path: '/index',
