@@ -13,23 +13,30 @@
             <el-input v-model="searchObj.title" placeholder="标题名" />
           </el-form-item>
 
-          <el-form-item label="添加时间">
-            <el-date-picker
-              v-model="searchObj.gmtCreate"
-              type="datetime"
-              placeholder="选择开始时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
-          </el-form-item>
           <el-form-item>
-            <el-date-picker
-              v-model="searchObj.gmtModified"
-              type="datetime"
-              placeholder="选择截止时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              default-time="00:00:00"
-            />
+            <el-input v-model="searchObj.nickname" placeholder="用户昵称" />
+          </el-form-item>
+
+          <el-form-item label="课程分类">
+            <el-select v-model="one" placeholder="一级分类" @change="subjectLevelOneChanged">
+              <el-option
+                v-for="subject in subjectOneList"
+                :key="subject.id"
+                :label="subject.title"
+                :value="subject.id"
+              />
+
+            </el-select>
+
+            <!-- 二级分类 -->
+            <el-select v-model="searchObj.subjectTwoId" placeholder="二级分类" style="margin-left: 5px">
+              <el-option
+                v-for="subject in subjectTwoList"
+                :key="subject.id"
+                :label="subject.title"
+                :value="subject.id"
+              />
+            </el-select>
           </el-form-item>
 
           <el-button type="primary" icon="el-icon-search" @click="getList()">查 询</el-button>
@@ -58,7 +65,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="封面" width="100" align="center">
+      <el-table-column label="照片" width="100" align="center">
         <template slot-scope="scope">
           <el-popover placement="right" trigger="hover">
             <img :src="scope.row.picture" style="height: 100px; width: 100px" alt="scope.row.title">
@@ -74,7 +81,7 @@
 
       <el-table-column prop="title" label="标题" />
 
-      <el-table-column prop="userName" label="用户姓名" />
+      <el-table-column prop="nickname" label="用户姓名" />
 
       <el-table-column prop="gmtCreate" label="添加时间" />
       <el-table-column prop="gmtModified" label="修改时间" />
@@ -99,6 +106,8 @@
 
 <script>
 import articleApi from '@/api/photography/article'
+import pictureApi from '@/api/photography/picture'
+import courseSubjectApi from '@/api/photography/courseSubject'
 
 export default {
   data() {
@@ -106,15 +115,43 @@ export default {
       page: 1,
       limit: 10,
       total: 0,
+      one: '',
       searchObj: {},
+      subjectOneList: [], // 一级分类
+      subjectTwoList: [], // 二级分类
       list: null,
       listLoading: true,
       multipleSelection: [] // 批量选择中选择的记录列表
     }
-  }, created() {
+  },
+  created() {
     this.getList()
+    this.getOneSubject()
   },
   methods: {
+    // 点击某个一级分类，触发change，显示对应二级分类
+    // value就是一份分类id
+    subjectLevelOneChanged(value) {
+      // 遍历所有分类，包含一级和二级
+      for (var i = 0; i < this.subjectOneList.length; i++) {
+        // 每个一级分类
+        var oneSubject = this.subjectOneList[i]
+        // 判断： 所有一级分类id和点击一级分类id是否一样
+        if (value === oneSubject.id) {
+          // 从一级分类中获取所有二级分类
+          this.subjectTwoList = oneSubject.children
+          // 清空二级表单
+          this.courseInfo.subjectId = ''
+        }
+      }
+    },
+    // 获取一级分类
+    getOneSubject() {
+      courseSubjectApi.getAllListTree()
+        .then(response => {
+          this.subjectOneList = response.data.list
+        })
+    },
     // 批量删除
     removeRows() {
       if (this.multipleSelection.length === 0) {
@@ -158,7 +195,7 @@ export default {
     },
     getList(page = 1) {
       this.page = page
-      articleApi.getPageList(this.page, this.limit, this.searchObj)
+      pictureApi.getPictureList(this.page, this.limit, this.searchObj)
         .then(response => {
           this.list = response.data.list // 表格数据
           this.total = response.data.total
@@ -175,7 +212,7 @@ export default {
       this.getList()
     },
     removeDataById(id) {
-      this.$confirm('此操作将永久删除文章，是否继续？', '提示', {
+      this.$confirm('此操作将永久删除照片，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -200,7 +237,7 @@ export default {
     },
     // 下载excel
     down() {
-      articleApi.down()
+      pictureApi.down()
         .then(response => {
           this.$message({
             type: 'success',

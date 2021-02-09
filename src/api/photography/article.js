@@ -53,6 +53,17 @@ export default {
       method: 'delete',
       data: idList
     })
+  },
+
+  /**
+   * 下载Excel
+   * @returns {AxiosPromise}
+   */
+  down() {
+    return request({
+      url: `/h5service/article/download`,
+      method: 'get'
+    })
   }
 
 }

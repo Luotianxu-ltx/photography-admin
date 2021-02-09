@@ -164,6 +164,25 @@ export const constantRoutes = [
       }
     ]
   },
+  // 照片管理
+  {
+    path: '/picture',
+    component: Layout,
+    redirect: '/picture/list',
+    name: '照片管理',
+    meta: {
+      title: '照片管理',
+      icon: 'el-icon-s-custom'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/photography/picture/list'),
+        name: '照片管理',
+        meta: { title: '照片管理', icon: 'list' }
+      }
+    ]
+  },
   // 文章管理
   {
     path: '/article',
@@ -179,7 +198,7 @@ export const constantRoutes = [
         path: 'list',
         component: () => import('@/views/photography/article/list'),
         name: '文章管理',
-        meta: { title: '文章', icon: 'list' }
+        meta: { title: '文章管理', icon: 'list' }
       }
     ]
   },
