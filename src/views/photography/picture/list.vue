@@ -105,7 +105,6 @@
 </template>
 
 <script>
-import articleApi from '@/api/photography/article'
 import pictureApi from '@/api/photography/picture'
 import courseSubjectApi from '@/api/photography/courseSubject'
 
@@ -173,7 +172,7 @@ export default {
           idList.push(item.id)
         })
         // 调用api
-        return articleApi.deleteAll(idList)
+        return pictureApi.deleteAll(idList)
       }).then((response) => {
         this.getList()
         if (response.success) {
@@ -218,7 +217,7 @@ export default {
         type: 'warning'
       }).then(() => {
         // 调用删除方法
-        articleApi.delete(id)
+        pictureApi.deleteById(id)
           .then(response => { // 删除成功
             // 提示信息
             this.$message({

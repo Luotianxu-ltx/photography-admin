@@ -17,10 +17,39 @@ export default {
     })
   },
 
+  /**
+   * 下载Excel
+   * @returns {AxiosPromise}
+   */
   down() {
     return request({
       url: `/h5service/picture/download`,
       method: 'get'
+    })
+  },
+
+  /**
+   * 根据id删除
+   * @param id
+   * @returns {AxiosPromise}
+   */
+  deleteById(id) {
+    return request({
+      url: `/h5service/picture/delete/${id}`,
+      method: 'delete'
+    })
+  },
+
+  /**
+   * 多选删除
+   * @param idList
+   * @returns {AxiosPromise}
+   */
+  deleteAll(idList) {
+    return request({
+      url: `/h5service/picture/batchRemove`,
+      method: 'delete',
+      data: idList
     })
   }
 }
