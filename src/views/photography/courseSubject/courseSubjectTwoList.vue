@@ -55,7 +55,7 @@
       @selection-change="handleSelectionChange"
     >
 
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column
         label="序号"
         width="70"
@@ -66,11 +66,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="title" label="名称" width="300" />
+      <el-table-column prop="title" label="名称" width="300" align="center" />
 
-      <el-table-column prop="gmtCreate" label="添加时间" />
+      <el-table-column prop="gmtCreate" label="添加时间" align="center" />
 
-      <el-table-column prop="gmtModified" label="更新时间" />
+      <el-table-column prop="gmtModified" label="更新时间" align="center" />
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">

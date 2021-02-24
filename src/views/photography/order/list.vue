@@ -63,7 +63,7 @@
       @selection-change="handleSelectionChange"
     >
 
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column
         label="序号"
         width="70"
@@ -74,27 +74,27 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="orderNo" label="订单编号" width="200" />
+      <el-table-column prop="orderNo" label="订单编号" width="200" align="center" />
 
-      <el-table-column prop="courseTitle" label="课程名称" />
+      <el-table-column prop="courseTitle" label="课程名称" align="center" />
 
-      <el-table-column prop="photographerName" label="摄影师名" />
+      <el-table-column prop="photographerName" label="摄影师名" align="center" />
 
-      <el-table-column prop="nickname" label="用户昵称" />
+      <el-table-column prop="nickname" label="用户昵称" align="center" />
 
-      <el-table-column prop="totalFee" label="订单金额">
+      <el-table-column prop="totalFee" label="订单金额" align="center">
         <template slot-scope="scope">
           {{ scope.row.totalFee }}元
         </template>
       </el-table-column>
 
-      <el-table-column prop="status" label="支付状态">
+      <el-table-column prop="status" label="支付状态" align="center">
         <template slot-scope="scope">
           {{ scope.row.status===0?'未支付':'已支付' }}
         </template>
       </el-table-column>
 
-      <el-table-column prop="gmtCreate" label="时间" width="160" />
+      <el-table-column prop="gmtCreate" label="时间" width="160" align="center" />
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">

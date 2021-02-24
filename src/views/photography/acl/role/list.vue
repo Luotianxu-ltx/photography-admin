@@ -33,15 +33,15 @@
       style="margin-top: 20px"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" width="70" align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column prop="roleName" label="角色名称" width="100"/>
-      <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="gmtCreate" label="创建时间" width="180" />
+      <el-table-column prop="roleName" label="角色名称" width="100" align="center" />
+      <el-table-column prop="remark" label="备注" align="center" />
+      <el-table-column prop="gmtCreate" label="创建时间" width="180" align="center" />
       <el-table-column label="操作" width="280" align="center">
         <template slot-scope="scope">
           <router-link :to="'/acl/role/distribution/'+scope.row.id" style="padding-right: 5px">

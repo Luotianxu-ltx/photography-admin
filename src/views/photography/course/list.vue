@@ -50,7 +50,7 @@
       @selection-change="handleSelectionChange"
     >
 
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column
         label="序号"
         width="70"
@@ -75,21 +75,21 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="title" label="课程名称" width="200" />
+      <el-table-column prop="title" align="center" label="课程名称" width="200" />
 
-      <el-table-column label="课程状态" width="100">
+      <el-table-column align="center" label="课程状态" width="100">
         <template slot-scope="scope">
           {{ scope.row.status==='1'?'已发布':'未发布' }}
         </template>
       </el-table-column>
 
-      <el-table-column prop="lessonNum" label="课时数" width="70" />
+      <el-table-column prop="lessonNum" align="center" label="课时数" width="70" />
 
-      <el-table-column prop="gmtCreate" label="添加时间" width="160" />
+      <el-table-column prop="gmtCreate" align="center" label="添加时间" width="160" />
 
-      <el-table-column prop="gmtModified" label="修改时间" width="160" />
+      <el-table-column prop="gmtModified" align="center" label="修改时间" width="160" />
 
-      <el-table-column prop="viewCount" label="浏览量" width="70" />
+      <el-table-column prop="viewCount" align="center" label="浏览量" width="70" />
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">

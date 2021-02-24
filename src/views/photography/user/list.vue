@@ -58,7 +58,7 @@
       @selection-change="handleSelectionChange"
     >
 
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column
         label="序号"
         width="70"
@@ -83,19 +83,19 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="nickname" label="昵称" />
+      <el-table-column prop="nickname" label="昵称" align="center" />
 
-      <el-table-column prop="mobile" label="手机号" width="150" />
+      <el-table-column prop="mobile" label="手机号" width="150" align="center" />
 
-      <el-table-column label="性别" width="100">
+      <el-table-column label="性别" width="100" align="center">
         <template slot-scope="scope">
           {{ scope.row.sex===1?'女':'男' }}
         </template>
       </el-table-column>
 
-      <el-table-column prop="age" label="年龄" />
+      <el-table-column prop="age" label="年龄" align="center" />
 
-      <el-table-column label="是否禁用" width="100">
+      <el-table-column label="是否禁用" width="100" align="center">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.isDisabled"
@@ -108,7 +108,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="gmtCreate" label="注册时间" width="160" />
+      <el-table-column prop="gmtCreate" label="注册时间" width="160" align="center" />
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">

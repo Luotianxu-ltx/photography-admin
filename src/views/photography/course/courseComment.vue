@@ -59,7 +59,7 @@
       @selection-change="handleSelectionChange"
     >
 
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column
         label="序号"
         width="70"
@@ -70,11 +70,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="content" label="评论内容" />
+      <el-table-column prop="content" align="center" label="评论内容" />
 
-      <el-table-column prop="nickname" label="用户昵称" width="200" />
+      <el-table-column prop="nickname" align="center" label="用户昵称" width="200" />
 
-      <el-table-column prop="gmtCreate" label="时间" width="160" />
+      <el-table-column prop="gmtCreate" align="center" label="时间" width="160" />
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">

@@ -39,7 +39,7 @@
       style="margin-top: 20px"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" width="70" align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
@@ -60,17 +60,17 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="name" label="名称" width="150" />
+      <el-table-column prop="name" label="名称" width="150" align="center" />
 
-      <el-table-column label="头衔" width="100">
+      <el-table-column label="头衔" width="100" align="center">
         <template slot-scope="scope">
           {{ scope.row.level===1?'签约摄影师':'爱好者' }}
         </template>
       </el-table-column>
 
-      <el-table-column prop="career" label="资历" />
+      <el-table-column prop="career" label="资历" align="center" />
 
-      <el-table-column prop="gmtCreate" label="添加时间" width="160" />
+      <el-table-column prop="gmtCreate" label="添加时间" width="160" align="center" />
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">

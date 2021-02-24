@@ -31,7 +31,7 @@
       style="margin-top: 20px"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" width="70" align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
@@ -50,9 +50,9 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column prop="username" label="用户名" width="150" />
-      <el-table-column prop="introduction" label="用户简介" />
-      <el-table-column prop="gmtCreate" label="创建时间" width="180" />
+      <el-table-column prop="username" label="用户名" width="150" align="center" />
+      <el-table-column prop="introduction" label="用户简介" align="center" />
+      <el-table-column prop="gmtCreate" label="创建时间" width="180" align="center" />
       <el-table-column label="操作" width="280" align="center">
         <template slot-scope="scope">
           <router-link :to="'/acl/user/role/'+scope.row.id" style="padding-right: 5px">

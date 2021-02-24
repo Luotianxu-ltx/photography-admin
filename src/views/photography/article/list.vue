@@ -51,7 +51,7 @@
       style="margin-top: 20px"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" width="70" align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
@@ -72,12 +72,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="title" label="标题" />
+      <el-table-column prop="title" label="标题" align="center" />
 
-      <el-table-column prop="userName" label="用户姓名" />
+      <el-table-column prop="userName" label="用户姓名" align="center" />
 
-      <el-table-column prop="gmtCreate" label="添加时间" />
-      <el-table-column prop="gmtModified" label="修改时间" />
+      <el-table-column prop="gmtCreate" label="添加时间" align="center" />
+      <el-table-column prop="gmtModified" label="修改时间" align="center" />
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">

@@ -21,7 +21,7 @@
       style="margin-top: 20px"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" width="70" align="center">
         <template slot-scope="scope">
           {{ (page - 1) * limit + scope.$index + 1 }}
@@ -42,15 +42,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="title" label="标题" width="100" />
+      <el-table-column prop="title" label="标题" width="100" align="center" />
 
-      <el-table-column prop="imageUrl" label="图片地址" />
+      <el-table-column prop="imageUrl" label="图片地址" align="center" />
 
-      <el-table-column prop="linkUrl" label="链接地址" width="160" />
+      <el-table-column prop="linkUrl" label="链接地址" width="160" align="center" />
 
-      <el-table-column prop="sort" label="排序" width="50" />
+      <el-table-column prop="sort" label="排序" width="50" align="center" />
 
-      <el-table-column prop="gmtCreate" label="添加时间" width="160" />
+      <el-table-column prop="gmtCreate" label="添加时间" width="160" align="center" />
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
