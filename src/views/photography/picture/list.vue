@@ -68,10 +68,10 @@
       <el-table-column label="照片" width="100" align="center">
         <template slot-scope="scope">
           <el-popover placement="right" trigger="hover">
-            <img :src="scope.row.picture" style="height: 100px; width: 100px" alt="scope.row.title">
+            <img :src="scope.row.url" style="height: 100px; width: 100px" alt="scope.row.title">
             <img
               slot="reference"
-              :src="scope.row.picture"
+              :src="scope.row.url"
               :alt="scope.row.title"
               style="height: 40px; width: 40px"
             >
