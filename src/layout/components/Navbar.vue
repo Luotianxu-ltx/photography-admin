@@ -6,17 +6,9 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-
         <el-tooltip content="全屏" effect="dark" placement="bottom">
           <screenfull id="screenfull" class="right-menu-item hover-effect" />
         </el-tooltip>
-
-        <!--        <el-tooltip content="全屏" effect="dark" placement="bottom">-->
-        <!--          <div class="avatar-wrapper">-->
-        <!--            123-->
-        <!--          </div>-->
-        <!--        </el-tooltip>-->
-
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
