@@ -21,17 +21,31 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401'),
     hidden: true
   },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   name: '首页',
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       component: () => import('@/views/dashboard/index'),
+  //       name: '首页',
+  //       meta: { title: '首页', icon: 'dashboard' }
+  //     }
+  //   ]
+  // },
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    name: '首页',
+    redirect: '/photographer/list',
+    name: '摄影师管理',
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: '首页',
-        meta: { title: '首页', icon: 'dashboard' }
+        path: 'list',
+        component: () => import('@/views/photography/photographer/list'),
+        name: '摄影师列表',
+        meta: { title: '摄影师列表', icon: 'list' }
       }
     ]
   },
@@ -305,32 +319,32 @@ export const constantRoutes = [
       }
 
     ]
-  },
-  // 统计模块
-  {
-    path: '/form',
-    component: Layout,
-    redirect: '/form/courseShow',
-    name: '数据大屏',
-    meta: {
-      title: '数据大屏',
-      icon: 'el-icon-s-custom'
-    },
-    children: [
-      {
-        path: 'form',
-        component: () => import('@/views/photography/form/form'),
-        name: '数据大屏',
-        meta: { title: '数据大屏', icon: 'list' }
-      },
-      {
-        path: 'courseShowPage',
-        component: () => import('@/views/photography/form/hot'),
-        name: '列表',
-        meta: { title: '列表', icon: 'list' }
-      }
-    ]
   }
+  // 统计模块
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   redirect: '/form/courseShow',
+  //   name: '数据大屏',
+  //   meta: {
+  //     title: '数据大屏',
+  //     icon: 'el-icon-s-custom'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'form',
+  //       component: () => import('@/views/photography/form/form'),
+  //       name: '数据大屏',
+  //       meta: { title: '数据大屏', icon: 'list' }
+  //     },
+  //     {
+  //       path: 'courseShowPage',
+  //       component: () => import('@/views/photography/form/hot'),
+  //       name: '列表',
+  //       meta: { title: '列表', icon: 'list' }
+  //     }
+  //   ]
+  // }
 ]
 
 /**
@@ -338,30 +352,30 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'ErrorPages',
-    meta: {
-      title: 'Error Pages',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/error-page/401'),
-        name: 'Page401',
-        meta: { title: '401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/error-page/404'),
-        name: 'Page404',
-        meta: { title: '404', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/error',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'ErrorPages',
+  //   meta: {
+  //     title: 'Error Pages',
+  //     icon: '404'
+  //   },
+  //   children: [
+  //     {
+  //       path: '401',
+  //       component: () => import('@/views/error-page/401'),
+  //       name: 'Page401',
+  //       meta: { title: '401', noCache: true }
+  //     },
+  //     {
+  //       path: '404',
+  //       component: () => import('@/views/error-page/404'),
+  //       name: 'Page404',
+  //       meta: { title: '404', noCache: true }
+  //     }
+  //   ]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

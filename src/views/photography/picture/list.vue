@@ -25,7 +25,6 @@
                 :label="subject.title"
                 :value="subject.id"
               />
-
             </el-select>
 
             <!-- 二级分类 -->

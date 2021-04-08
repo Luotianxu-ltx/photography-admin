@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
-    <el-form label-width="120px" :rules="formRules" :model="photographer">
+    <el-form ref="ruleForm" label-width="120px" :rules="formRules" :model="photographer">
       <el-form-item label="摄影师名称" prop="name">
         <el-input v-model="photographer.name" />
       </el-form-item>
-      <el-form-item label="摄影师头衔">
+      <el-form-item label="摄影师头衔" prop="level">
         <el-select v-model="photographer.level" clearable placeholder="请选择">
           <el-option :value="1" label="签约摄影师" />
           <el-option :value="2" label="爱好者" />
@@ -13,7 +13,7 @@
       <el-form-item label="摄影师资历" prop="career">
         <el-input v-model="photographer.career" />
       </el-form-item>
-      <el-form-item label="摄影师简介">
+      <el-form-item label="摄影师简介" prop="intro">
         <el-input v-model="photographer.intro" :rows="10" type="textarea" />
       </el-form-item>
       <!-- 摄影师头像 -->
@@ -74,8 +74,14 @@ export default {
         name: [
           { required: true, message: '请输入摄影师姓名', trigger: 'blur' }
         ],
+        level: [
+          { required: true, message: '请选择摄影师头衔', trigger: 'change' }
+        ],
         career: [
           { required: true, message: '请输入摄影师资历', trigger: 'blur' }
+        ],
+        intro: [
+          { required: true, message: '简介', trigger: 'blur' }
         ]
       }
     }
@@ -127,38 +133,58 @@ export default {
     },
     // 添加摄影师
     savePhotographer() {
-      photographerApi.addPhotographer(this.photographer)
-        .then(response => { // 添加成功
-          // 提示信息
-          this.$message({
-            type: 'success',
-            message: '添加成功'
-          })
-          // 回到列表页面
-          this.$router.push({ path: '/photographer/list' })
-        }).catch((response) => {
+      this.$refs['ruleForm'].validate((valid) => {
+        if (valid) {
+          photographerApi.addPhotographer(this.photographer)
+            .then(response => { // 添加成功
+              // 提示信息
+              this.$message({
+                type: 'success',
+                message: '添加成功'
+              })
+              // 回到列表页面
+              this.$router.push({ path: '/photographer/list' })
+            }).catch((response) => {
+              this.$message({
+                type: 'error',
+                message: '保存失败'
+              })
+            })
+        } else {
           this.$message({
             type: 'error',
-            message: '保存失败'
+            message: '请完善信息！'
           })
-        })
+          return false
+        }
+      })
     },
     // 修改摄影师
     updatePhotographer() {
-      photographerApi.updatePhtotgrapher(this.photographer)
-        .then(response => { // 添加成功
-          // 提示信息
-          this.$message({
-            type: 'success',
-            message: '修改成功'
-          })
-          this.$router.push({ path: '/photographer/list' })
-        }).catch((response) => {
+      this.$refs['formName'].validate((valid) => {
+        if (valid) {
+          photographerApi.updatePhtotgrapher(this.photographer)
+            .then(response => { // 添加成功
+              // 提示信息
+              this.$message({
+                type: 'success',
+                message: '修改成功'
+              })
+              this.$router.push({ path: '/photographer/list' })
+            }).catch((response) => {
+              this.$message({
+                type: 'error',
+                message: '修改失败'
+              })
+            })
+        } else {
           this.$message({
             type: 'error',
-            message: '修改失败'
+            message: '请完善信息！'
           })
-        })
+          return false
+        }
+      })
     }
   }
 }
