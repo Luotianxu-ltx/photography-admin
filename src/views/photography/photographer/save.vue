@@ -61,7 +61,7 @@ export default {
       photographer: {
         name: '',
         sort: 0,
-        level: 1,
+        level: '',
         career: '',
         intro: '',
         avatar: ''

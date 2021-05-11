@@ -18,7 +18,7 @@
         <p>
           {{ chapter.title }}
           <span class="acts">
-            <el-button style="" type="text" @click="openVideo(chapter.id,chapter.id)">添加小节</el-button>
+            <el-button style="" type="text" @click="openVideo(chapter.id)">添加小节</el-button>
             <el-button style="" type="text" @click="openEditChapter(chapter.id)">编辑</el-button>
             <el-button type="text" @click="deleteChapter(chapter.id)">删除</el-button>
           </span>
@@ -29,7 +29,7 @@
             <p>
               {{ video.title }}
               <span class="acts">
-                <el-button style="" type="text">编辑</el-button>
+                <el-button style="" type="text" @click="editVideo(video.id)">编辑</el-button>
                 <el-button type="text" @click="deleteVideo(video.id)">删除</el-button>
               </span>
             </p>
@@ -164,7 +164,6 @@ export default {
     handleVodUploadSuccess(response, file, fileList) {
       // 上传文件id
       this.videoId = response.data.videoId
-      console.log(this.videoId)
       // 上传文件名称
       this.video.videoOriginalName = file.name
     },
@@ -195,7 +194,6 @@ export default {
       // 设置课程id
       this.video.courseId = this.courseId
       this.video.videoSourceId = this.videoId
-      console.log(this.video.videoSourceId)
       videoApi.addVideo(this.video)
         .then(response => {
           // 关闭弹框
@@ -216,7 +214,11 @@ export default {
         })
     },
     saveOrUpdateVideo() {
-      this.addVideo()
+      if (!this.video.id) {
+        this.addVideo()
+      } else {
+        this.updateVideo()
+      }
     },
     // 添加小节弹框
     openVideo(chapterId) {
@@ -224,6 +226,28 @@ export default {
       this.dialogVideoFormVisible = true
       // 设置章节id
       this.video.chapterId = chapterId
+    },
+    // 修改小节弹窗
+    editVideo(videoId) {
+      this.dialogVideoFormVisible = true
+      videoApi.getVideoInfo(videoId)
+        .then(response => {
+          this.video = response.data.video
+        })
+    },
+    updateVideo() {
+      videoApi.updateChapter(this.video)
+        .then(response => {
+          // 关闭弹框
+          this.dialogVideoFormVisible = false
+          // 提示信息
+          this.$message({
+            type: 'success',
+            message: '修改小节成功！'
+          })
+          // 刷新页面
+          this.getChapterVideo()
+        })
     },
     // ========================================================================= //
     // 删除章节

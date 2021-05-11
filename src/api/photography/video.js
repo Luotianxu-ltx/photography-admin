@@ -46,5 +46,17 @@ export default {
       url: `/vodservice/video/removeAlyVideo/${id}`,
       method: 'delete'
     })
+  },
+
+  /**
+   * 根据id查询小节信息
+   * @param videoId
+   * @returns {AxiosPromise}
+   */
+  getVideoInfo(videoId) {
+    return request({
+      url: `/adminservice/courseservice/course-video/getVideoInfo/${videoId}`,
+      method: 'get'
+    })
   }
 }
